@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Application,NextFunction as NF } from "express";
+import { Application, NextFunction as NF } from "express";
 import { IController } from "./interface";
 import * as logger from "morgan";
 import errorMiddleware from "./middleware/errorMiddleware.middleware";

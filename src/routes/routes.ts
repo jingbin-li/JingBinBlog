@@ -1,4 +1,4 @@
-import { UserController } from "../controllers/user.controller";
+import { UserController } from "../controllers/adminControllers";
 import { IController } from "../interface";
 
 const controllers: { new (): IController }[] = [UserController];

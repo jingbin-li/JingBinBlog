@@ -1,3 +1,4 @@
 export abstract class AController {
-  protected basePath: string;
+  protected abstract basePath: string;
+  protected abstract attachToRoutes(): void;
 }
