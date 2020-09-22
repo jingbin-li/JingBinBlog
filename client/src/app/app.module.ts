@@ -17,6 +17,13 @@ import { BlogAdminModule } from './modules/blog-admin.module';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import * as AllIcons from '@ant-design/icons-angular/icons';
+import { IconDefinition } from '@ant-design/icons-angular';
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 registerLocaleData(en);
 
 @NgModule({
@@ -33,6 +40,8 @@ registerLocaleData(en);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
+    NzIconModule,
+    NzIconModule.forRoot(icons)
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

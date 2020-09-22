@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LayoutRoutingModule } from './layout-routing';
 import { HomeComponent } from './home/home.component';
 import { LayoutMenu } from './components/menu/menu.component';
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
 const SystemModules = [
   CommonModule,
   HttpClientModule,
@@ -17,7 +17,7 @@ const SystemModules = [
 
 @NgModule({
   declarations: [HomeComponent, LayoutMenu],
-  imports: [...SystemModules, LayoutRoutingModule],
+  imports: [...SystemModules, LayoutRoutingModule,NzIconModule],
   exports: [],
   providers: [],
 })

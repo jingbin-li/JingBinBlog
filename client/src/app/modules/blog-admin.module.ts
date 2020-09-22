@@ -4,20 +4,35 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginService } from '../services/login.service';
-import { UserManagement } from './components/user-management/user-management.component';
 import { BlogAdminRoutingModule } from './blog-admin.routing';
+import {
+  ArchivesManagementComponent,
+  ArticlesManagementComponent,
+  CommentsManagementComponent,
+  MessagesManagementComponent,
+  StatisticsManagementComponent,
+  UsersManagementComponent,
+} from './components';
 
-const SystemModules = [
+const Modules = [
   CommonModule,
   HttpClientModule,
   NgZorroAntdModule,
   ReactiveFormsModule,
   FormsModule,
+  BlogAdminRoutingModule,
 ];
-
+const Components = [
+  UsersManagementComponent,
+  ArticlesManagementComponent,
+  CommentsManagementComponent,
+  MessagesManagementComponent,
+  ArchivesManagementComponent,
+  StatisticsManagementComponent,
+];
 @NgModule({
-  declarations: [UserManagement],
-  imports: [...SystemModules, BlogAdminRoutingModule],
+  declarations: [...Components],
+  imports: [...Modules],
   providers: [LoginService],
   exports: [],
 })
