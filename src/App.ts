@@ -4,10 +4,15 @@ import { IController } from "./interface";
 import * as logger from "morgan";
 import errorMiddleware from "./middleware/errorMiddleware.middleware";
 import { HTTPException } from "./middleware/middlewareModel/HTTPException";
+import * as mongoose from "mongoose";
+import { DATABASE_CONFIG } from "./configs/dbconfig";
+import * as log4js from "log4js";
 export class App {
   //端口 + web服务器实例
   private app: Application;
+  private conectUrl: string;
   constructor(private port: number, controllers: IController[]) {
+    this.conentcMongoDB();
     this.port = port;
     this.app = express();
     this.initializeMiddleware(controllers);
@@ -24,10 +29,27 @@ export class App {
     this.app.use(errorMiddleware.errorMiddleware);
   }
 
-  //
+  //初始化路由
   private initializeControllers(controllers: IController[]) {
     controllers.forEach((item) => {
       this.app.use("/api/v1", item.router);
+    });
+  }
+  //连接数据库
+  private conentcMongoDB() {
+    const {
+      DATABASE_HOST: host,
+      DATABASE_PORT: port,
+      DATABASE_NAME: database,
+      DATABASE_USERNAME: username,
+      DATABASE_PASSWORD: password,
+    } = process.env;
+    const url = `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=admin`;
+    mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connection error:"));
+    db.once("open", () => {
+      console.log("数据库已连接");
     });
   }
 
