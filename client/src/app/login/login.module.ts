@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../services/coreServices/login.service';
 
 const SystemModules = [
   CommonModule,

@@ -9,12 +9,12 @@ export class LayoutMenu implements OnInit {
   isCollapsed = false;
   public currentUrl: string;
   public menuList = [
-    { menuName: '用户管理', router: '/admin/users', icon: 'user' },
-    { menuName: '文章管理', router: '/admin/articles', icon: 'form' },
-    { menuName: '评论管理', router: '/admin/comments', icon: 'comment' },
-    { menuName: '留言管理', router: '/admin/messages', icon: 'alert' },
-    { menuName: '归档管理', router: '/admin/archives', icon: 'folder' },
-    { menuName: '网站统计', router: '/admin/statistics', icon: 'line-chart' },
+    { menuName: '用户管理', router: '/home/users', icon: 'user' },
+    { menuName: '文章管理', router: '/home/articles', icon: 'form' },
+    { menuName: '评论管理', router: '/home/comments', icon: 'comment' },
+    { menuName: '留言管理', router: '/home/messages', icon: 'alert' },
+    { menuName: '归档管理', router: '/home/archives', icon: 'folder' },
+    { menuName: '网站统计', router: '/home/statistics', icon: 'line-chart' },
   ];
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -22,7 +22,7 @@ export class LayoutMenu implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentUrl=this.router.url;
+    this.currentUrl = this.router.url;
   }
 
   toggleCollapsed(): void {

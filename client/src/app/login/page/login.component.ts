@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../../services/login.service';
+import { LoginService, UserService } from '../../services/coreServices';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,7 +10,12 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   validateForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private loginService: LoginService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -22,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   submitForm(): void {
     console.log(this.validateForm.value);
-
-    this.router.navigateByUrl('admin');
+    this.userService.setCurrentUser('admin');
+    this.router.navigateByUrl('home');
   }
 }

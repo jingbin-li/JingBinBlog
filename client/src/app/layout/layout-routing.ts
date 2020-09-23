@@ -3,15 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: 'admin', redirectTo: 'admin/users' },
+  { path: 'home', redirectTo: 'home/users' },
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
     children: [
       {
-        path: 'admin',
+        path: '',
         loadChildren: () =>
-          import('src/app/modules/blog-admin.module').then(
+          import('src/app/modules/admin/blog-admin.module').then(
             (m) => m.BlogAdminModule
           ),
       },

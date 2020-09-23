@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './page/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', redirectTo: 'admin/login', pathMatch: 'full' },
   {
     path: 'login',
     component: LoginComponent,
     data: { title: '登录', pageName: 'login' },
+    pathMatch: 'full',
   },
 ];
 
