@@ -7,6 +7,7 @@ import { HTTPException } from "./middleware/middlewareModel/HTTPException";
 import * as mongoose from "mongoose";
 import { DATABASE_CONFIG } from "./configs/dbconfig";
 import * as log4js from "log4js";
+import * as cors from "cors";
 export class App {
   //端口 + web服务器实例
   private app: Application;
@@ -21,6 +22,7 @@ export class App {
 
   //初始化中间件
   private initializeMiddleware(controllers: IController[]) {
+    //this.app.use(cors()); 
     //可以用json处理post请求体
     this.app.use(express.json());
     this.app.use(logger("dev"));

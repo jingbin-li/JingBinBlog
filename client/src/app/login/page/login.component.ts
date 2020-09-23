@@ -26,7 +26,10 @@ export class LoginComponent implements OnInit {
 
   submitForm(): void {
     console.log(this.validateForm.value);
-    this.userService.setCurrentUser('admin');
+    this.loginService.login(this.validateForm.value).subscribe((res) => {
+      console.log(res);
+    });
+    //this.userService.setCurrentUser('admin');
     this.router.navigateByUrl('home');
   }
 }

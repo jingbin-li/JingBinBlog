@@ -15,19 +15,21 @@ export class UserController extends AController implements IController {
   protected attachToRoutes() {
     const path = this.basePath;
     this.router.get(path, this.getUser);
-    this.router.post(`${path}/create`, this.addUser);
+    this.router.post(`${path}/verification`, this.addUser);
   }
   //处理逻辑的方法
   private getUser(req: Requset, res: Response, next: NF) {
     res.send("okok");
   }
   private async addUser(req: Requset, res: Response, next: NF) {
-    let { userName, passWord, avatar, email } = req.body;
-    let user = new User({ userName, passWord, avatar, email });
-    await user.save();
+    console.log(req.body);
+    
+    // let { userName, passWord, avatar, email } = req.body;
+    // let user = new User({ userName, passWord, avatar, email });
+    // await user.save();
     res.json({
       success: true,
-      data: user,
+      data: req.body,
     });
   }
 }

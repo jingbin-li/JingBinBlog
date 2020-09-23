@@ -13,7 +13,13 @@ const httpOptions = {
 };
 @Injectable()
 export class LoginService {
+  private apiUrl: string;
+  private baseUrl = environment.baseUrl;
+  constructor(private http: HttpClient) {
+    this.apiUrl = `${this.baseUrl}api/v1/user`;
+  }
   public login(loginForm): Observable<any> {
-    return;
+    const url = `${this.apiUrl}/verification`;
+    return this.http.post(url, loginForm, httpOptions);
   }
 }
