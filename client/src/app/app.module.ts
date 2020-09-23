@@ -10,22 +10,30 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { LoginModule } from './login';
 import { NgZorroAntdModule, NzMessageModule } from 'ng-zorro-antd';
 import { LayoutModule } from './layout/layout.module';
-import { BlogAdminModule } from './modules/blog-admin.module';
+import { BlogAdminModule } from './modules/admin/blog-admin.module';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { IconDefinition } from '@ant-design/icons-angular';
+import { MenuAdminGuard } from './guard/menu-admin.guard';
+import { UserService, LoginService } from './services/coreServices';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
+  (key) => antDesignIcons[key]
+);
 registerLocaleData(en);
-
+const servers = [
+  { provide: NZ_I18N, useValue: en_US },
+  MenuAdminGuard,
+  UserService,
+  LoginService,
+];
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -41,9 +49,9 @@ registerLocaleData(en);
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
-    NzIconModule.forRoot(icons)
+    NzIconModule.forRoot(icons),
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [...servers],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
