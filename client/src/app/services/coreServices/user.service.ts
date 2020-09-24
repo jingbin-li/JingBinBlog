@@ -21,7 +21,7 @@ export class UserService {
   public getCurrentUser(): string {
     return this.currentUserName;
   }
-  public setToken(token:string){
-    localStorage.setItem("token", token);
+  public setToken(token: string) {
+    localStorage.setItem('token', token);
   }
 }

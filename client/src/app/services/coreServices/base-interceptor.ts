@@ -15,6 +15,15 @@ export class BaseInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    throw new Error('Method not implemented.');
+    const token = localStorage.getItem('token');
+    if (token) {
+      const clonedRequest = req.clone({
+        setHeaders: {
+          Authorization: token,
+        },
+      });
+      console.log(token);
+      return next.handle(clonedRequest);
+    }
   }
 }
