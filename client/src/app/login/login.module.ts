@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginService } from '../services/coreServices/login.service';
-
+import { CryptPassword } from '../services/coreServices/cryptoPassword.service';
 const SystemModules = [
   CommonModule,
   HttpClientModule,
@@ -18,7 +18,7 @@ const SystemModules = [
 @NgModule({
   declarations: [LoginComponent],
   imports: [...SystemModules, LoginRoutingModule],
-  providers: [LoginService],
+  providers: [LoginService, CryptPassword],
   exports: [LoginComponent],
 })
 export class LoginModule {}

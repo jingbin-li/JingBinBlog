@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService, UserService } from '../../services/coreServices';
 import { Router } from '@angular/router';
+import { CryptPassword } from '../../services/coreServices';
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +16,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private loginService: LoginService,
-    private userService: UserService
+    private userService: UserService,
+    private cryptoPassword: CryptPassword
   ) {}
 
   ngOnInit(): void {
@@ -25,8 +28,11 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log(this.validateForm.value);
-    this.loginService.login(this.validateForm.value).subscribe((res) => {
+    const result = this.cryptoPassword.userEncryptionByMD5(
+      this.validateForm.value
+    );
+    console.log(result);
+    this.loginService.login(result).subscribe((res) => {
       console.log(res);
     });
     //this.userService.setCurrentUser('admin');

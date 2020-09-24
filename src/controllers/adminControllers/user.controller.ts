@@ -1,7 +1,8 @@
-import { IController } from "../../interface";
+import { IController, ApiResult } from "../../interface";
 import { Router, Requset, Response, NextFunction as NF } from "express";
 import { AController } from "../../abstract/AController.controller";
 import { User } from "../../models";
+import { promises } from "fs";
 export class UserController extends AController implements IController {
   protected basePath: string;
   public router: Router;
@@ -22,14 +23,10 @@ export class UserController extends AController implements IController {
     res.send("okok");
   }
   private async addUser(req: Requset, res: Response, next: NF) {
-    console.log(req.body);
-    
-    // let { userName, passWord, avatar, email } = req.body;
-    // let user = new User({ userName, passWord, avatar, email });
-    // await user.save();
-    res.json({
-      success: true,
-      data: req.body,
-    });
+    let { userName, passWord, avatar, email } = req.body;
+    let user = new User({ userName, passWord, avatar, email });
+    await user.save();
+    let result: ApiResult = { data: "success", code: 200 };
+    res.json(result);
   }
 }

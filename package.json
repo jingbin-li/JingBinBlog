@@ -6,12 +6,15 @@
   "dependencies": {
     "@types/node": "^14.11.2",
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
+    "crypto-random-string": "^3.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-status-codes": "^2.1.4",
     "log4js": "^6.3.0",
     "mongoose": "^5.10.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "random-string": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {
