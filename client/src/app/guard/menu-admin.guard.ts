@@ -11,8 +11,8 @@ import { UserService } from '../services/coreServices';
 export class MenuAdminGuard implements CanActivate {
   constructor(private readonly userService: UserService) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // console.log(route);
-    // console.log(state);
-    return this.userService.getCurrentUser() === 'admin';
+    const currentUser = this.userService.getCurrentUser();
+    if (currentUser) return true;
+    else return false;
   }
 }

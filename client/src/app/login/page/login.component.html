@@ -1,20 +1,49 @@
 <div class="login">
-  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-    <img src="assets/img/cat.png" alt="">
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    class="login-form"
+    (ngSubmit)="submitForm()"
+  >
+    <a
+      href=""
+      nz-popover
+      nzPopoverTitle=""
+      [(nzPopoverVisible)]="visible"
+      [nzPopoverContent]="contentTemplate"
+    >
+      <img src="assets/img/cat.png" alt="" style="margin-top: 20px;" />
+    </a>
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your username!">
         <nz-input-group nzPrefixIcon="user">
-          <input type="text" nz-input formControlName="userName" placeholder="Username" />
+          <input
+            type="text"
+            nz-input
+            formControlName="userName"
+            placeholder="Username"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your Password!">
         <nz-input-group nzPrefixIcon="lock">
-          <input type="password" nz-input formControlName="password" placeholder="Password" />
+          <input
+            type="passWord"
+            nz-input
+            formControlName="passWord"
+            placeholder="passWord"
+          />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
-    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+    <button
+      nz-button
+      class="login-form-button login-form-margin"
+      [nzType]="'primary'"
+    >
+      Log in
+    </button>
   </form>
 </div>

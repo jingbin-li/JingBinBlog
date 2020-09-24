@@ -14,10 +14,14 @@ const httpOptions = {
 @Injectable()
 export class UserService {
   public currentUserName = '';
+  public token = '';
   public setCurrentUser(userNmae: string): void {
     this.currentUserName = userNmae;
   }
   public getCurrentUser(): string {
     return this.currentUserName;
+  }
+  public setToken(token:string){
+    localStorage.setItem("token", token);
   }
 }

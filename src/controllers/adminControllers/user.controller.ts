@@ -1,8 +1,11 @@
 import { IController, ApiResult } from "../../interface";
 import { Router, Requset, Response, NextFunction as NF } from "express";
 import { AController } from "../../abstract/AController.controller";
-import { User } from "../../models";
+import { Users } from "../../models";
 import { promises } from "fs";
+import { VerificationJTW } from "../../tools";
+import GenerateJwt from "../../tools/generate-jwt";
+import * as jsonwebtoken from "jsonwebtoken";
 export class UserController extends AController implements IController {
   protected basePath: string;
   public router: Router;
@@ -24,9 +27,18 @@ export class UserController extends AController implements IController {
   }
   private async addUser(req: Requset, res: Response, next: NF) {
     let { userName, passWord, avatar, email } = req.body;
-    let user = new User({ userName, passWord, avatar, email });
-    await user.save();
-    let result: ApiResult = { data: "success", code: 200 };
-    res.json(result);
+    //let user = new User({ userName, passWord, avatar, email });
+    //  await user.save();
+    const reuslt = await Users.find(
+      { userName: userName, passWord: passWord },
+      "_id"
+    );
+    if (reuslt.length === 0) {
+      res.json({ data: "fail", code: 500 });
+    } else {
+      const jwt = GenerateJwt(userName);
+      let result: ApiResult = { data: { token: jwt }, code: 200 };
+      res.json(result);
+    }
   }
 }

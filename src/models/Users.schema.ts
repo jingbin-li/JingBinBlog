@@ -17,4 +17,4 @@ const UserDocument: Schema<UserDocument> = new Schema(
   },
   { timestamps: { createdAt: "createTime", updatedAt: "updateTime" } }
 );
-export const User: Model<UserDocument> = mongoose.model("User", UserDocument);
+export const Users: Model<UserDocument> = mongoose.model("Users", UserDocument);

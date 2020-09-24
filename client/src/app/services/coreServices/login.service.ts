@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { ApiResult } from 'src/app/interface/ApiResult';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,8 +19,8 @@ export class LoginService {
   constructor(private http: HttpClient) {
     this.apiUrl = `${this.baseUrl}api/v1/user`;
   }
-  public login(loginForm): Observable<any> {
+  public login(loginForm): Observable<ApiResult> {
     const url = `${this.apiUrl}/verification`;
-    return this.http.post(url, loginForm, httpOptions);
+    return this.http.post<ApiResult>(url, loginForm, httpOptions);
   }
 }
