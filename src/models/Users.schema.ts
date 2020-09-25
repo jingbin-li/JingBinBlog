@@ -14,6 +14,10 @@ const UserDocument: Schema<UserDocument> = new Schema(
       type: String,
       trim: true,
     },
+    role: {
+      type: String,
+      default: "Ordinary",
+    },
   },
   { timestamps: { createdAt: "createTime", updatedAt: "updateTime" } }
 );

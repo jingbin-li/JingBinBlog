@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'users',
     component: UsersManagementComponent,
     data: { title: '用户管理' },
-    canActivate: [MenuAdminGuard],
+    // canActivate: [MenuAdminGuard],
   },
   {
     path: 'articles',
@@ -42,7 +42,9 @@ const routes: Routes = [
     data: { title: '网站统计' },
   },
 ];
-
+routes.map((item) => {
+  item.canActivate = [MenuAdminGuard];
+});
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

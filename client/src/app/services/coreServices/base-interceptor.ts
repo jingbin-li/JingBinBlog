@@ -15,6 +15,7 @@ export class BaseInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // console.log('所有请求走这里');
     const token = localStorage.getItem('token');
     if (token) {
       const clonedRequest = req.clone({
@@ -22,7 +23,7 @@ export class BaseInterceptor implements HttpInterceptor {
           Authorization: token,
         },
       });
-      console.log(token);
+      //console.log(token);
       return next.handle(clonedRequest);
     }
   }
