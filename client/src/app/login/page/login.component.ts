@@ -38,15 +38,19 @@ export class LoginComponent implements OnInit {
     const logInObj: UserLogin = this.validateForm.value;
 
     const result = this.cryptoPassword.userEncryptionByMD5(logInObj);
-    console.log(result);
-
     this.loginService.login(result).subscribe((res) => {
       if (res.code === 200) {
-        this.visible = true;
-        this.contentTemplate = '登录成功';
-        this.userService.setCurrentUser(logInObj.userName);
-        this.userService.setToken(res.data.token);
-        this.router.navigateByUrl('home');
+        const role = res.data.role;
+        if (role === 'admin' || 'super_admin') {
+          this.visible = true;
+          this.contentTemplate = '登录成功';
+          this.userService.setCurrentUser({userName:logInObj.userName,role});
+          this.userService.setToken(res.data.token);
+          this.router.navigateByUrl('home');
+        } else {
+          this.visible = true;
+          this.contentTemplate = '登录失败';
+        }
       } else {
         this.visible = true;
         this.contentTemplate = '登录失败';

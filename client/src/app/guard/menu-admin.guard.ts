@@ -21,11 +21,11 @@ export class MenuAdminGuard implements CanActivate {
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let isTrue: boolean;
     const currentUser = this.userService.getCurrentUser();
-    if (currentUser) {
+    if ((currentUser && currentUser.role === 'admin') || 'super_admin') {
       isTrue = true;
     } else {
       const result = await this.http
-        .get<ApiResult>('api/v1/admin/user/currentUser')
+        .get<ApiResult>('api/v1/user/currentUser')
         .toPromise();
       const userName = result.data.userName;
       const code = result.code;

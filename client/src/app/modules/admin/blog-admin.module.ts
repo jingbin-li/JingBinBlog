@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginService } from '../../services/coreServices/login.service';
@@ -14,7 +14,8 @@ import {
   UsersManagementComponent,
 } from './components';
 import { LoginModule } from 'src/app/login';
-
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { BaseInterceptor } from '../../services/coreServices/base-interceptor';
 const Modules = [
   CommonModule,
   HttpClientModule,
@@ -23,6 +24,7 @@ const Modules = [
   FormsModule,
   BlogAdminRoutingModule,
   LoginModule,
+  NzGridModule,
 ];
 const Components = [
   UsersManagementComponent,
@@ -35,7 +37,10 @@ const Components = [
 @NgModule({
   declarations: [...Components],
   imports: [...Modules],
-  providers: [LoginService],
+  providers: [
+    LoginService,
+    { provide: HTTP_INTERCEPTORS, useClass: BaseInterceptor, multi: true },
+  ],
   exports: [],
 })
 export class BlogAdminModule {}

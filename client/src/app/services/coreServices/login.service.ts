@@ -17,7 +17,7 @@ export class LoginService {
   private apiUrl: string;
   private baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) {
-    this.apiUrl = `${this.baseUrl}api/v1/admin/user`;
+    this.apiUrl = `${this.baseUrl}api/v1/user`;
   }
   public login(loginForm): Observable<ApiResult> {
     const url = `${this.apiUrl}/verification`;

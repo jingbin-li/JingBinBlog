@@ -13,13 +13,13 @@ const httpOptions = {
 };
 @Injectable()
 export class UserService {
-  public currentUserName = '';
+  public currentUser: any;
   public token = '';
-  public setCurrentUser(userNmae: string): void {
-    this.currentUserName = userNmae;
+  public setCurrentUser(user: any): void {
+    this.currentUser = user;
   }
-  public getCurrentUser(): string {
-    return this.currentUserName;
+  public getCurrentUser(): any {
+    return this.currentUser;
   }
   public setToken(token: string) {
     localStorage.setItem('token', token);

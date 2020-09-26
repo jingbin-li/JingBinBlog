@@ -9,14 +9,17 @@ const VerificationJwt = (req: Request, res: Response, next: NF) => {
   const token = req.headers.authorization;
   const privateKey = process.env.SECRET_KEY;
   if (token) {
-    console.log(token);
+    //console.log(token);
     jwt.verify(token, privateKey, (err, decoded) => {
       if (err) {
         console.log(err);
         next(err);
       } else {
-        console.log(decoded);
-        const user: IContextUser = { userName: decoded.sub };
+        //console.log(decoded);
+        const user: IContextUser = {
+          userName: decoded.sub,
+          role: decoded.role,
+        };
         httpContext.set("user", user);
         next();
       }

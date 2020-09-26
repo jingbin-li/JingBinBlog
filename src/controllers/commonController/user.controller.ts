@@ -1,18 +1,17 @@
 import { IController, ApiResult } from "../../interface";
 import { Router, Request, Response, NextFunction as NF } from "express";
 import { AController } from "../../abstract/AController.controller";
-import { Users } from "../../models";
+import { Roles, Users } from "../../models";
 import { promises } from "fs";
 import VerificationJwt from "../../tools/verification-jwt";
 import GenerateJwt from "../../tools/generate-jwt";
 import * as jsonwebtoken from "jsonwebtoken";
 import * as httpContext from "express-http-context";
 export class UserController extends AController implements IController {
-  protected basePath: string;
+  protected basePath = "/user";
   public router: Router;
   constructor() {
     super();
-    this.basePath = "/admin/user";
     this.router = Router();
     this.attachToRoutes();
   }
@@ -26,8 +25,12 @@ export class UserController extends AController implements IController {
   private getCurrentUser(req: Request, res: Response, next: NF) {
     const currentName = httpContext.get("user").userName;
     const isExist = Users.findOne({ userName: currentName }, "_id");
+    const role = currentName.role;
     if (isExist) {
-      const reuslt: ApiResult = { data: { userName: currentName }, code: 200 };
+      const reuslt: ApiResult = {
+        data: { userName: currentName, role },
+        code: 200,
+      };
       res.json(reuslt);
     } else {
       res.json({ data: "fail", code: 500 });
@@ -36,10 +39,12 @@ export class UserController extends AController implements IController {
   //验证用户是否合法并且颁发token
   private async verificationUser(req: Request, res: Response, next: NF) {
     let { userName, passWord, avatar, email } = req.body;
-    const reuslt = await Users.findOne({ userName, passWord }, "_id role");
-    if (reuslt && reuslt.role === "admin") {
-      const jwt = GenerateJwt(userName);
-      let result: ApiResult = { data: { token: jwt }, code: 200 };
+    console.log(req.body);
+    const reuslt = await Users.findOne({ userName, passWord }, "_id");
+    const role = await Roles.findOne({ userId: reuslt._id }, "role");
+    if (reuslt) {
+      const jwt = await GenerateJwt(userName);
+      let result: ApiResult = { data: { jwt, role }, code: 200 };
       res.json(result);
     } else {
       res.json({ data: "fail", code: 500 });
