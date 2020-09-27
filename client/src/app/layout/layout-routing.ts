@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { MenuAdminGuard } from '../guard/menu-admin.guard';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
           ),
       },
     ],
+    canActivate: [MenuAdminGuard],
   },
 ];
 @NgModule({

@@ -14,7 +14,6 @@ const routes: Routes = [
     path: 'users',
     component: UsersManagementComponent,
     data: { title: '用户管理' },
-    // canActivate: [MenuAdminGuard],
   },
   {
     path: 'articles',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/coreServices';
 @Component({
   selector: 'layout-menu',
   templateUrl: './menu.component.html',
@@ -18,7 +19,8 @@ export class LayoutMenu implements OnInit {
   ];
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly currentUser: UserService
   ) {}
 
   ngOnInit() {
