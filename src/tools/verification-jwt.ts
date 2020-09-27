@@ -15,7 +15,6 @@ const VerificationJwt = (req: Request, res: Response, next: NF) => {
         console.log(err);
         next(err);
       } else {
-        //console.log(decoded);
         const user: IContextUser = {
           userName: decoded.sub,
           role: decoded.role,

@@ -23,12 +23,12 @@ export class UserController extends AController implements IController {
   }
   //处理逻辑的方法
   private getCurrentUser(req: Request, res: Response, next: NF) {
-    const currentName = httpContext.get("user").userName;
-    const isExist = Users.findOne({ userName: currentName }, "_id");
-    const role = currentName.role;
+    const currentUser = httpContext.get("user");
+    const isExist = Users.findOne({ userName: currentUser.userName }, "_id");
+    const role = currentUser.role;
     if (isExist) {
       const reuslt: ApiResult = {
-        data: { userName: currentName, role },
+        data: { userName: currentUser, role },
         code: 200,
       };
       res.json(reuslt);
@@ -39,9 +39,8 @@ export class UserController extends AController implements IController {
   //验证用户是否合法并且颁发token
   private async verificationUser(req: Request, res: Response, next: NF) {
     let { userName, passWord, avatar, email } = req.body;
-    console.log(req.body);
     const reuslt = await Users.findOne({ userName, passWord }, "_id");
-    const role = await Roles.findOne({ userId: reuslt._id }, "role");
+    const role = await Roles.findOne({ userId: reuslt._id }, "role -_id");
     if (reuslt) {
       const jwt = await GenerateJwt(userName);
       let result: ApiResult = { data: { jwt, role }, code: 200 };

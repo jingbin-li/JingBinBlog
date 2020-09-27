@@ -6,7 +6,7 @@ const GenerateJwt = async (userName: string): Promise<string> => {
   process.on("unhandledRejection", (reason, p) => {
     console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
   });
-  const overTime = 60*60*60*1000;
+  const overTime = 60 * 60 * 60 * 1000;
   const privateKey = process.env.SECRET_KEY;
   const result = await Users.aggregate([
     {
@@ -23,6 +23,8 @@ const GenerateJwt = async (userName: string): Promise<string> => {
       },
     },
   ]);
+  console.log(result);
+
   const userRole = result[0].role[0].role;
   const payload: Payload = {
     iss: "admin",

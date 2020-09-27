@@ -40,12 +40,14 @@ export class LoginComponent implements OnInit {
     const result = this.cryptoPassword.userEncryptionByMD5(logInObj);
     this.loginService.login(result).subscribe((res) => {
       if (res.code === 200) {
-        const role = res.data.role;
-        if (role === 'admin' || 'super_admin') {
+        const { jwt, role: userRole } = res.data;
+        if (userRole.role === 'admin' || userRole.role === 'super_admin') {
           this.visible = true;
-          this.contentTemplate = '登录成功';
-          this.userService.setCurrentUser({userName:logInObj.userName,role});
-          this.userService.setToken(res.data.token);
+          this.userService.setCurrentUser({
+            userName: logInObj.userName,
+            role: userRole.role,
+          });
+          this.userService.setToken(jwt);
           this.router.navigateByUrl('home');
         } else {
           this.visible = true;
