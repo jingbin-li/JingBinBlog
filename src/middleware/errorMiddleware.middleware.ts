@@ -17,7 +17,7 @@ const errorMiddleware = (
 ) => {
   const result: ApiResult = {
     data: { success: false, message: err.message, errors: err.errors },
-    code: 500,
+    code: err.status,
   };
   // res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(result);
   res.json(result);

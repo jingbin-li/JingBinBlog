@@ -21,6 +21,8 @@ export class UserManagementController
     const path = this.basePath;
     this.router.post(`${path}/createUser`, this.createUser);
     this.router.get(`${path}/userlist`, this.getList);
+    this.router.get(`${path}/checkName`, this.checkName);
+    this.router.delete(`${path}/removeUser`, this.removeUser);
   }
   private async createUser(req: Request, res: Response, next: NF) {
     try {
@@ -84,6 +86,42 @@ export class UserManagementController
       const result: ApiResult = { data: error, code: 500 };
       res.json(result);
       next(error);
+    }
+  }
+
+  private async checkName(req: Request, res: Response, next: NF) {
+    let result: ApiResult;
+    const { userName } = req.query;
+    try {
+      if (userName) {
+        const isExist = await Users.findOne({ userName }, "_id");
+        if (isExist) {
+          result = { data: { isExist: true }, code: 200 };
+        } else {
+          result = { data: { isExist: false }, code: 200 };
+        }
+      } else {
+        result = { data: "", code: 500 };
+      }
+    } catch (error) {
+      const err = new HTTPException(500, "内部错误", error);
+      next(err);
+    }
+
+    res.json(result);
+  }
+
+  private async removeUser(req: Request, res: Response, next: NF) {
+    let result: ApiResult;
+    try {
+      const { user_id, role_id } = req.query;
+      const userResult = await Users.remove({ _id: user_id });
+      const roleReuslt = await Roles.remove({ _id: role_id });
+      result = { data: "success", code: 200 };
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "fail");
+      next(err);
     }
   }
 }
