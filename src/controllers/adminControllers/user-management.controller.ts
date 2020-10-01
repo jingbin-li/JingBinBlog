@@ -47,9 +47,8 @@ export class UserManagementController
         next(erro);
       }
     } catch (error) {
-      const result: ApiResult = { data: error, code: 500 };
-      res.json(result);
-      next(error);
+      const err = new HTTPException(500, "fail",error);
+      next(err);
     }
   }
 

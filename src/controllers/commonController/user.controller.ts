@@ -7,6 +7,7 @@ import VerificationJwt from "../../tools/verification-jwt";
 import GenerateJwt from "../../tools/generate-jwt";
 import * as jsonwebtoken from "jsonwebtoken";
 import * as httpContext from "express-http-context";
+import { HTTPException } from "../../middleware/middlewareModel/HTTPException";
 export class UserController extends AController implements IController {
   protected basePath = "/user";
   public router: Router;
@@ -39,14 +40,19 @@ export class UserController extends AController implements IController {
   //验证用户是否合法并且颁发token
   private async verificationUser(req: Request, res: Response, next: NF) {
     let { userName, passWord, avatar, email } = req.body;
-    const reuslt = await Users.findOne({ userName, passWord }, "_id");
-    const role = await Roles.findOne({ userId: reuslt._id }, "role -_id");
-    if (reuslt) {
-      const jwt = await GenerateJwt(userName);
-      let result: ApiResult = { data: { jwt, role }, code: 200 };
-      res.json(result);
-    } else {
-      res.json({ data: "fail", code: 500 });
+    try {
+      const reuslt = await Users.findOne({ userName, passWord }, "_id");
+      const role = await Roles.findOne({ userId: reuslt._id }, "role -_id");
+      if (reuslt) {
+        const jwt = await GenerateJwt(userName);
+        let result: ApiResult = { data: { jwt, role }, code: 200 };
+        res.json(result);
+      } else {
+        res.json({ data: "fail", code: 500 });
+      }
+    } catch (error) {
+      const err = new HTTPException(500, "fail", error);
+      next(err);
     }
   }
 }

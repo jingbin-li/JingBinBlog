@@ -5,15 +5,15 @@ import * as httpContext from "express-http-context";
 import { Request, Response, NextFunction as NF } from "express";
 import { IContextUser } from "../interface/IContextUser.interface";
 import { decode } from "punycode";
+import { HTTPException } from "../middleware/middlewareModel/HTTPException";
 const VerificationJwt = (req: Request, res: Response, next: NF) => {
   const token = req.headers.authorization;
   const privateKey = process.env.SECRET_KEY;
   if (token) {
-    //console.log(token);
     jwt.verify(token, privateKey, (err, decoded) => {
       if (err) {
-        console.log(err);
-        next(err);
+        const erro = new HTTPException(404, "No permission", err);
+        next(erro);
       } else {
         const user: IContextUser = {
           userName: decoded.sub,
@@ -24,7 +24,13 @@ const VerificationJwt = (req: Request, res: Response, next: NF) => {
       }
     });
   } else {
-    next();
+    const reqUrl = req.url;
+    if (reqUrl === "/api/v1/user/verification") {
+      next();
+    } else {
+      const reuslt = new HTTPException(404, "No Authority");
+      next(reuslt);
+    }
   }
 };
 
