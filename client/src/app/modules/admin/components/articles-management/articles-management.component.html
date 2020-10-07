@@ -1,1 +1,19 @@
-articlesmanagement work
+<nz-card nzTitle="文章管理">
+  <nz-layout>
+    <nz-header>
+      <ul nz-menu nzMode="horizontal">
+        <li nz-menu-item>
+          <i nz-icon nzType="menu" nzTheme="outline"></i>
+          <a routerLink="/home/articles/articlesList">文章列表</a>
+        </li>
+
+        <li nz-menu-item>
+          <i nz-icon nzType="edit" nzTheme="outline"></i>
+
+          <a routerLink="/home/articles/editArticles">编辑文章</a>
+        </li>
+      </ul></nz-header
+    >
+    <nz-content> <router-outlet></router-outlet></nz-content>
+  </nz-layout>
+</nz-card>

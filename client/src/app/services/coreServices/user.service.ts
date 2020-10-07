@@ -20,7 +20,7 @@ export class UserService {
   public setCurrentUser(user: any): void {
     this.currentUser = user;
   }
-  public getCurrentUser(): any {
+  public getCurrentUser(): {userName:string;role:string} {
     return this.currentUser;
   }
   public setToken(token: string) {

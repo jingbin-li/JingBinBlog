@@ -1,30 +1,55 @@
 <nz-card nzTitle="用户管理">
   <div nz-row [nzGutter]="16" style="margin-bottom: 10px">
     <div nz-col [nzSpan]="6">
-      <form nz-form [formGroup]="searchForm" (ngSubmit)="submitForm()">
+      <form nz-form [formGroup]="searchForm">
         <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">用户名</nz-form-label>
-          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name"
+            >用户名</nz-form-label
+          >
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="The input is not valid E-mail!"
+          >
             <input nz-input formControlName="name" id="name" />
           </nz-form-control>
-          <button nz-button [nzType]="'primary'" style="margin-left: 15px">
+          <button
+            (click)="search()"
+            nz-button
+            [nzType]="'primary'"
+            style="margin-left: 15px"
+          >
             <span>搜索</span>
           </button>
         </nz-form-item>
       </form>
     </div>
     <div nz-col [nzSpan]="6">
-      <button nz-button [nzType]="'primary'" (click)="showModal()">
+      <button nz-button [nzType]="'primary'" (click)="showModal('createUser')">
         <span>添加用户</span>
       </button>
-      <nz-modal [(nzVisible)]="isVisible" nzTitle="添加用户" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-        [nzOkDisabled]="!createUserForm.valid||validateStatus==='error'">
-        <form nz-form [formGroup]="createUserForm" (ngSubmit)="submitForm()">
+      <nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="添加用户"
+        (nzOnCancel)="handleCancel()"
+        (nzOnOk)="handleOk()"
+        [nzOkDisabled]="getIsDisabledOkBtn()"
+      >
+        <form nz-form [formGroup]="userForm">
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="role" nzRequired>role</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your role!">
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="role" nzRequired
+              >role</nz-form-label
+            >
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Please input your role!"
+            >
               <nz-select formControlName="role" class="phone-select">
-                <nz-option nzLabel="super_admin" nzValue="super_admin"></nz-option>
+                <nz-option
+                  nzLabel="super_admin"
+                  nzValue="super_admin"
+                ></nz-option>
                 <nz-option nzLabel="admin" nzValue="admin"></nz-option>
                 <nz-option nzLabel="ordinary" nzValue="ordinary"></nz-option>
               </nz-select>
@@ -32,30 +57,71 @@
           </nz-form-item>
 
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
+              >E-mail</nz-form-label
+            >
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
               <input nz-input formControlName="email" id="email" />
             </nz-form-control>
           </nz-form-item>
 
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userName">UserName</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]='validateStatus'
-              nzErrorTip="The input is not valid name!">
-              <input nz-input formControlName="userName" id="userName" (ngModelChange)=checkName($event) />
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userName"
+              >UserName</nz-form-label
+            >
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              [nzValidateStatus]="validateStatus"
+              nzErrorTip="The input is not valid name!"
+            >
+              <input
+                nz-input
+                formControlName="userName"
+                id="userName"
+                (ngModelChange)="checkName($event)"
+              />
             </nz-form-control>
           </nz-form-item>
 
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Password</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzErrorTip="Please input your password!">
-              <input nz-input type="password" formControlName="passWord" (ngModelChange)="validateConfirmPassword()" />
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>{{
+              passwordLable
+            }}</nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzHasFeedback
+              nzErrorTip="Please input your password!"
+            >
+              <input
+                nz-input
+                type="password"
+                formControlName="passWord"
+                (ngModelChange)="validateConfirmPassword()"
+              />
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Confirm</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
-              <input nz-input type="password" formControlName="confirm" placeholder="confirm your password" />
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired
+              >Confirm</nz-form-label
+            >
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzHasFeedback
+              [nzErrorTip]="passwordErrorTpl"
+            >
+              <input
+                nz-input
+                type="password"
+                formControlName="confirm"
+                placeholder="confirm your password"
+              />
               <ng-template #passwordErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">
                   Please confirm your password!
@@ -70,7 +136,12 @@
       </nz-modal>
     </div>
   </div>
-  <nz-table #basicTable [nzData]="listOfData" nzShowPagination="false" [nzLoading]='isTableLoading'>
+  <nz-table
+    #basicTable
+    [nzData]="listOfData"
+    nzShowPagination="true"
+    [nzLoading]="isTableLoading"
+  >
     <thead>
       <tr>
         <th>用户名</th>
@@ -89,9 +160,25 @@
         <td>{{ data.creater }}</td>
         <td>{{ data.createTime }}</td>
         <td>
-          <button nz-button nzType="primary" style="margin-right: 5px;"
-            (click)="removeUser(data.user_id,data.role_id)">删除</button>
-          <button nz-button nzType="primary">更新</button>
+          <button
+            style="margin-right: 5px"
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure delete this task?"
+            (nzOnConfirm)="removeUser(data.user_id, data.role_id)"
+            (nzOnCancel)="cancel()"
+            nzPopconfirmPlacement="top"
+            nz-button
+            nzType="primary"
+          >
+            删除
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            (click)="showModal('updateUser', data)"
+          >
+            更新
+          </button>
         </td>
       </tr>
     </tbody>

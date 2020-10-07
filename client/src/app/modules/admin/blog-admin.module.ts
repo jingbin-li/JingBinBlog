@@ -16,6 +16,9 @@ import {
 import { LoginModule } from 'src/app/login';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { BaseInterceptor } from '../../services/coreServices/base-interceptor';
+import { EditArticlesComponent } from './components/articles-management/edit-articles/edit-articles.component';
+import { ArticlesListComponent } from './components/articles-management/articles-list/articles-list.component';
+import { EditorModule} from '@tinymce/tinymce-angular'
 const Modules = [
   CommonModule,
   HttpClientModule,
@@ -25,6 +28,7 @@ const Modules = [
   BlogAdminRoutingModule,
   LoginModule,
   NzGridModule,
+  EditorModule
 ];
 const Components = [
   UsersManagementComponent,
@@ -33,6 +37,8 @@ const Components = [
   MessagesManagementComponent,
   ArchivesManagementComponent,
   StatisticsManagementComponent,
+  EditArticlesComponent,
+  ArticlesListComponent
 ];
 @NgModule({
   declarations: [...Components],

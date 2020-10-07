@@ -8,8 +8,11 @@ import {
   MessagesManagementComponent,
   UsersManagementComponent,
 } from './components';
+import { ArticlesListComponent } from './components/articles-management/articles-list/articles-list.component';
+import { EditArticlesComponent } from './components/articles-management/edit-articles/edit-articles.component';
 
 const routes: Routes = [
+  { path: 'articles', redirectTo: 'articles/articlesList' },
   {
     path: 'users',
     component: UsersManagementComponent,
@@ -19,6 +22,16 @@ const routes: Routes = [
     path: 'articles',
     component: ArticlesManagementComponent,
     data: { title: '文章管理' },
+    children: [
+      {
+        path: 'editArticles',
+        component: EditArticlesComponent,
+      },
+      {
+        path: 'articlesList',
+        component: ArticlesListComponent,
+      },
+    ],
   },
   {
     path: 'comments',

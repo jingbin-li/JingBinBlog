@@ -5,3 +5,5 @@ export * from "./ApiResult";
 export * from "./IVerificationJTW.interface";
 export * from "./RoleDocument.interface";
 export * from "./IUsersList.interface";
+export * from "./ArticleCategoryDocument.interface";
+export * from "./ArticlesDocument.interface";

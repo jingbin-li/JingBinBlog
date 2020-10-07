@@ -7,9 +7,9 @@ import { HTTPException } from "./middleware/middlewareModel/HTTPException";
 import * as mongoose from "mongoose";
 import { DATABASE_CONFIG } from "./configs/dbconfig";
 import * as log4js from "log4js";
-import * as cors from "cors";
 import VerificationJwt from "./tools/verification-jwt";
 import * as httpContext from "express-http-context";
+
 export class App {
   //端口 + web服务器实例
   private app: Application;

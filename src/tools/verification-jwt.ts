@@ -25,12 +25,13 @@ const VerificationJwt = (req: Request, res: Response, next: NF) => {
     });
   } else {
     const reqUrl = req.url;
-    if (reqUrl === "/api/v1/user/verification") {
-      next();
-    } else {
-      const reuslt = new HTTPException(404, "No Authority");
-      next(reuslt);
-    }
+    // if (reqUrl === "/api/v1/user/verification") {
+    //   next();
+    // } else {
+    //   const reuslt = new HTTPException(404, "No Authority");
+    //   next(reuslt);
+    // }
+    next();
   }
 };
 

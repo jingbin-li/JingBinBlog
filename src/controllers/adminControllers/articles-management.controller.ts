@@ -6,12 +6,14 @@ import * as httpContext from "express-http-context";
 import { ApiResult, IUsersList } from "../../interface";
 import { HTTPException } from "../../middleware/middlewareModel/HTTPException";
 import { configure } from "log4js";
-export class UserManagementController
+import * as fs from "fs";
+import * as multiparty from "multiparty";
+import * as moment from "moment";
+export class ArticlesManagementController
   extends AController
   implements IController {
   protected basePath = "/admin";
   public router: Router;
-
   constructor() {
     super();
     this.router = Router();
@@ -19,36 +21,31 @@ export class UserManagementController
   }
   protected attachToRoutes(): void {
     const path = this.basePath;
-    this.router.post(`${path}/createUser`, this.createUser);
+    this.router.post(`${path}/images`, this.uploadImage);
+    // this.router.post(`${path}/createUser`, this.createUser);
     this.router.get(`${path}/userlist`, this.getList);
     this.router.get(`${path}/checkName`, this.checkName);
     this.router.delete(`${path}/removeUser`, this.removeUser);
     this.router.post(`${path}/updateUser`, this.updateUser);
   }
-  private async createUser(req: Request, res: Response, next: NF) {
+  private async uploadImage(req: Request, res: Response, next: NF) {
     try {
-      const currentUser = httpContext.get("user").userName;
-      const { role, email, userName, passWord } = req.body;
-      const user = new Users({ email, userName, passWord });
-      const userResult = await user.save();
-      const erro = new HTTPException(500, "fail", "添加失败");
-      if (userResult) {
-        const userRole = new Roles({
-          role,
-          userId: userResult._id,
-          creater: currentUser,
-        });
-        const userRoleResult = await userRole.save();
-        if (userRoleResult) {
-          const result: ApiResult = { data: {}, code: 200 };
-          res.json(result);
+      var form = new multiparty.Form({ uploadDir: "./public/images" });
+      form.parse(req, function (err, fields, files) {
+        const file = files.file[0];
+        const newPath = `public\\images\\${moment().format("YYYY-MM-DD")}${
+          file.originalFilename
+        }`;
+        console.log(files, " fields2");
+        fs.renameSync(file.path, newPath);
+        file.path = newPath;
+        if (err) {
+          const error = new HTTPException(500, "fail", err);
+          next(error);
         } else {
-          await Users.remove(userResult._id);
-          next(erro);
+          res.json({ location: file.path });
         }
-      } else {
-        next(erro);
-      }
+      });
     } catch (error) {
       const err = new HTTPException(500, "fail", error);
       next(err);
