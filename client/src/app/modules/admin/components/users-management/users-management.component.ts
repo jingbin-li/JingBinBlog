@@ -163,7 +163,6 @@ export class UsersManagementComponent implements OnInit {
       .get<ApiResult>(`${this.baseUrl}/userlist`, { params })
       .toPromise();
     this.listOfData = result.data;
-    console.log(this.listOfData);
     this.isTableLoading = false;
   }
 

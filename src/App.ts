@@ -5,7 +5,6 @@ import * as logger from "morgan";
 import errorMiddleware from "./middleware/errorMiddleware.middleware";
 import { HTTPException } from "./middleware/middlewareModel/HTTPException";
 import * as mongoose from "mongoose";
-import { DATABASE_CONFIG } from "./configs/dbconfig";
 import * as log4js from "log4js";
 import VerificationJwt from "./tools/verification-jwt";
 import * as httpContext from "express-http-context";
@@ -28,6 +27,7 @@ export class App {
     //可以用json处理post请求体
     this.app.use(express.json());
     this.app.use(logger("dev"));
+    this.app.use(express.static('public'));
     this.app.use(httpContext.middleware);
     this.app.use(VerificationJwt);
     this.initializeControllers(controllers);

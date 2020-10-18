@@ -3,9 +3,6 @@ import { Schema, Model } from "mongoose";
 import { ArticlesDocument } from "../interface";
 const ArticlesDocument: Schema<ArticlesDocument> = new Schema(
   {
-    title: {
-      type: String,
-    },
     content: {
       type: String,
     },
@@ -18,14 +15,17 @@ const ArticlesDocument: Schema<ArticlesDocument> = new Schema(
     cover: {
       type: String,
     },
-    categoryId:{
-        type:mongoose.Schema.Types.ObjectId,
-    }
+    mainMenuId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    secondaryMenuId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   { timestamps: { createdAt: "createTime", updatedAt: "updateTime" } }
 );
 
-export const Articles: Model<ArticlesDocument> = new Model(
+export const Articles: Model<ArticlesDocument> = mongoose.model(
   "Articles",
   ArticlesDocument
 );

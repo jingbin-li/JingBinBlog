@@ -7,8 +7,8 @@ const ArticleCategoryDocument: Schema<ArticleCategoryDocument> = new Schema(
     articleType: {
       type: String,
     },
-    aritcleId: {
-      type: mongoose.Schema.Types.ObjectId,
+    menuType: {
+      type: String,
     },
     creater: {
       type: String,

@@ -70,8 +70,6 @@ export class UserManagementController
       const result: ApiResult = { data: "success", code: 200 };
       res.json(result);
     } catch (error) {
-      console.log(error);
-
       const err = new HTTPException(500, "fail", error);
       next(err);
     }

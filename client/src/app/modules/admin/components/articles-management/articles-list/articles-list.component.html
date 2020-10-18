@@ -16,26 +16,47 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of basicTable.data">
-        <td>{{ data.userName }}</td>
-        <td>{{ data.role }}</td>
-        <td>{{ data.email }}</td>
-        <td>{{ data.creater }}</td>
-        <td>{{ data.createTime }}</td>
-        <td>
-          <button
-            style="margin-right: 5px"
-            nz-popconfirm
-            nzPopconfirmTitle="Are you sure delete this task?"
-            (nzOnConfirm)="removeUser(data.user_id, data.role_id)"
-            (nzOnCancel)="cancel()"
-            nzPopconfirmPlacement="top"
-            nz-button
-            nzType="primary"
-          >
-            删除
-          </button>
-          <button nz-button nzType="primary">更新</button>
-        </td>
-      </tr>
+      <td>{{ data.secondaryMenu[0].articleType }}</td>
+      <td>{{ data.mainMenu[0].articleType }}</td>
+      <td>{{ data.creater }}</td>
+      <td>{{ data.createTime }}</td>
+      <td>{{ data.updateTime }}</td>
+      <td>
+        <button
+          style="margin-right: 5px"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure delete this task?"
+          (nzOnConfirm)="removeArticle(data._id)"
+          (nzOnCancel)="cancel()"
+          nzPopconfirmPlacement="top"
+          nz-button
+          nzType="primary"
+        >
+          删除
+        </button>
+        <button nz-button nzType="primary" (click)="updataAticles(data._id)">
+          更新
+        </button>
+        <button
+          style="margin-left: 5px"
+          nz-button
+          nzType="primary"
+          (click)="previewContents(data.content)"
+        >
+          预览文章
+        </button>
+      </td>
+    </tr>
   </tbody>
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    nzTitle="预览文章"
+    (nzOnOk)="handleOk()"
+    (nzOnCancel)="handleCancel()"
+    [nzCancelText]="null"
+  >
+    <div style="height: 600px; overflow: auto; background: #eeeeee">
+      <p [innerHtml]="articlesContents | safeHtml"></p>
+    </div>
+  </nz-modal>
 </nz-table>

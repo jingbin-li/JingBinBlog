@@ -4,3 +4,4 @@ export * from './comments-management/comments-management.component';
 export * from './messages-management/messages-management.component';
 export * from './archives-management/archives-management.component';
 export * from './statistics-management/statistics-management.component'
+export * from './articles-management/articles-type/articles-type.component'

@@ -1,7 +1,25 @@
-<h1>编辑文章</h1>
-<editor
-  [init]="editorConfig" [(ngModel)]="content"
-></editor>
-<button (click)="getCode()">name</button>
-<img src="public/images/2020-10-07test2.jpg" alt="">
+<h3>编辑文章</h3>
+<div class="editContentTop">
+  <span>文章类别：</span>
+  <nz-select [(ngModel)]="selectMainMenu">
+    <ng-container *ngFor="let item of mainMenuList">
+      <nz-option [nzValue]="item._id" [nzLabel]="item.articleType"></nz-option>
+    </ng-container>
+  </nz-select>
+  <span>二级菜单：</span>
+  <nz-select [(ngModel)]="selectSecondaryMenu">
+    <ng-container *ngFor="let item of secondaryMenu">
+      <nz-option [nzValue]="item._id" [nzLabel]="item.articleType"></nz-option>
+    </ng-container>
+  </nz-select>
+  <button
+    nz-button
+    [nzType]="'primary'"
+    (click)="submitArticle()"
+    [disabled]="!(selectMainMenu && selectSecondaryMenu)"
+  >
+    <span>提交</span>
+  </button>
+</div>
 
+<editor [init]="editorConfig" [(ngModel)]="content"></editor>

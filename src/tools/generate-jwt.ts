@@ -23,8 +23,6 @@ const GenerateJwt = async (userName: string): Promise<string> => {
       },
     },
   ]);
-  console.log(result);
-
   const userRole = result[0].role[0].role;
   const payload: Payload = {
     iss: "admin",

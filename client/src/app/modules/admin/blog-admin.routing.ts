@@ -10,7 +10,7 @@ import {
 } from './components';
 import { ArticlesListComponent } from './components/articles-management/articles-list/articles-list.component';
 import { EditArticlesComponent } from './components/articles-management/edit-articles/edit-articles.component';
-
+import { ArticlesTypeComponent} from './components/articles-management/articles-type/articles-type.component'
 const routes: Routes = [
   { path: 'articles', redirectTo: 'articles/articlesList' },
   {
@@ -31,6 +31,10 @@ const routes: Routes = [
         path: 'articlesList',
         component: ArticlesListComponent,
       },
+      {
+        path: 'articlesType',
+        component: ArticlesTypeComponent
+      }
     ],
   },
   {

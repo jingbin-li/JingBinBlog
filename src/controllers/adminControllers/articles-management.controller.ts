@@ -1,7 +1,7 @@
 import { AController } from "../../abstract/AController.controller";
 import { IController } from "../../interface/IController.interface";
 import { Router, Request, Response, NextFunction as NF } from "express";
-import { Users, Roles } from "../../models";
+import { Users, Roles, ImagePath, ArticleCategory } from "../../models";
 import * as httpContext from "express-http-context";
 import { ApiResult, IUsersList } from "../../interface";
 import { HTTPException } from "../../middleware/middlewareModel/HTTPException";
@@ -9,6 +9,8 @@ import { configure } from "log4js";
 import * as fs from "fs";
 import * as multiparty from "multiparty";
 import * as moment from "moment";
+import { Articles } from "../../models/Articles.schema";
+import * as mongoose from "mongoose";
 export class ArticlesManagementController
   extends AController
   implements IController {
@@ -22,28 +24,35 @@ export class ArticlesManagementController
   protected attachToRoutes(): void {
     const path = this.basePath;
     this.router.post(`${path}/images`, this.uploadImage);
-    // this.router.post(`${path}/createUser`, this.createUser);
-    this.router.get(`${path}/userlist`, this.getList);
-    this.router.get(`${path}/checkName`, this.checkName);
-    this.router.delete(`${path}/removeUser`, this.removeUser);
-    this.router.post(`${path}/updateUser`, this.updateUser);
+
+    this.router.post(`${path}/articlesType`, this.createArticlesType);
+    this.router.get(`${path}/articlesTypeList`, this.getArticlesTypeList);
+    this.router.post(`${path}/updateArticlesType`, this.updateArticlesType);
+    this.router.delete(`${path}/removeArticlesType`, this.removeArticlesType);
+
+    this.router.get(`${path}/articlesList`, this.getList);
+    this.router.delete(`${path}/removeArticles`, this.removeArticles);
+    this.router.post(`${path}/updateArticles`, this.updateArticles);
+
+    this.router.get(`${path}/menuList`, this.getMenuList);
+    this.router.post(`${path}/articles`, this.createArticles);
   }
   private async uploadImage(req: Request, res: Response, next: NF) {
     try {
       var form = new multiparty.Form({ uploadDir: "./public/images" });
       form.parse(req, function (err, fields, files) {
         const file = files.file[0];
-        const newPath = `public\\images\\${moment().format("YYYY-MM-DD")}${
+        const newFileName = `${moment().format("YYYY-MM-DD")}${
           file.originalFilename
         }`;
-        console.log(files, " fields2");
+        const newPath = `public\\images\\${newFileName}`;
         fs.renameSync(file.path, newPath);
         file.path = newPath;
         if (err) {
           const error = new HTTPException(500, "fail", err);
           next(error);
         } else {
-          res.json({ location: file.path });
+          res.json({ location: `images\\${newFileName}` });
         }
       });
     } catch (error) {
@@ -51,97 +60,124 @@ export class ArticlesManagementController
       next(err);
     }
   }
-  private async updateUser(req: Request, res: Response, next: NF) {
-    try {
-      const { user_id, role_id, userName, email, role, passWord } = req.body;
-      let user;
-      const userRole = { role };
-      if (passWord) {
-        user = { userName, email, passWord };
-      } else {
-        user = { userName, email };
-      }
 
-      const userResult = await Users.update({ _id: user_id }, user);
-      const roleReuslt = await Roles.update({ _id: role_id }, userRole);
-      const result: ApiResult = { data: "success", code: 200 };
-      res.json(result);
-    } catch (error) {
-      console.log(error);
-
-      const err = new HTTPException(500, "fail", error);
-      next(err);
-    }
-  }
-  private async getList(req: Request, res: Response, next: NF) {
+  private async createArticlesType(req: Request, res: Response, next: NF) {
+    const { articleType, menuType } = req.body;
+    const currentUser = httpContext.get("user");
     try {
-      const { name } = req.query;
-      const reg = new RegExp(name.toString(), "i");
-      const x: any = [
-        {
-          $lookup: {
-            from: "roles",
-            localField: "_id",
-            foreignField: "userId",
-            as: "role",
-          },
-        },
-      ];
-      if (name) {
-        const y = {
-          $match: {
-            userName: { $regex: reg },
-          },
-        };
-        x.push(y);
-      }
-      const query = await Users.aggregate(x);
-      const userList = query.map((item) => {
-        const role = item.role[0];
-        const user: IUsersList = {
-          user_id: item._id,
-          role_id: role._id,
-          userName: item.userName,
-          role: role.role,
-          email: item.email,
-          creater: role.creater,
-          createTime: role.createTime,
-        };
-        return user;
+      const articleCategory = new ArticleCategory({
+        articleType,
+        menuType,
+        creater: currentUser.userName,
       });
-      const result: ApiResult = { data: userList, code: 200 };
+      const articleCategoryRes = await articleCategory.save();
+      const result: ApiResult = { data: articleCategoryRes, code: 200 };
       res.json(result);
-    } catch (error) {
-      const result: ApiResult = { data: error, code: 500 };
-      res.json(result);
-      next(error);
-    }
-  }
-
-  private async checkName(req: Request, res: Response, next: NF) {
-    let result: ApiResult;
-    const { userName } = req.query;
-    const name = userName.toString();
-    try {
-      if (name) {
-        const isExist = await Users.findOne({ userName: name }, "_id");
-        if (isExist) {
-          result = { data: { isExist: true }, code: 200 };
-        } else {
-          result = { data: { isExist: false }, code: 200 };
-        }
-      } else {
-        result = { data: "", code: 500 };
-      }
     } catch (error) {
       const err = new HTTPException(500, "内部错误", error);
       next(err);
     }
-
-    res.json(result);
+  }
+  private async getArticlesTypeList(req: Request, res: Response, next: NF) {
+    try {
+      const articleCategoryList = await ArticleCategory.find();
+      const result: ApiResult = { data: articleCategoryList, code: 200 };
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "内部错误", error);
+      next(err);
+    }
+  }
+  private async updateArticlesType(req: Request, res: Response, next: NF) {
+    try {
+      const { _id, articleType, menuType } = req.body;
+      await ArticleCategory.update(
+        { _id },
+        {
+          articleType,
+          menuType,
+        }
+      );
+      const result: ApiResult = { data: "", code: 200 };
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "内部错误", error);
+      next(err);
+    }
+  }
+  private async removeArticlesType(req: Request, res: Response, next: NF) {
+    try {
+      const { _id } = req.query;
+      await ArticleCategory.remove({ _id });
+      const result: ApiResult = { data: "", code: 200 };
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "内部错误", error);
+      next(err);
+    }
   }
 
-  private async removeUser(req: Request, res: Response, next: NF) {
+  private async getMenuList(req: Request, res: Response, next: NF) {
+    try {
+      const mainMenuList = await ArticleCategory.find(
+        { menuType: "mainMenu" },
+        "_id articleType"
+      );
+      const secondaryMenu = await ArticleCategory.find(
+        { menuType: "secondaryMenu" },
+        "_id articleType"
+      );
+
+      const result: ApiResult = {
+        data: { mainMenuList, secondaryMenu },
+        code: 200,
+      };
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "内部错误", error);
+      next(err);
+    }
+  }
+  private async createArticles(req: Request, res: Response, next: NF) {
+    const currentUser = httpContext.get("user");
+    let result: ApiResult;
+    try {
+      const { _id, mainMenuId, secondaryMenuId, content } = req.body;
+      if (_id) {
+        await Articles.update(
+          { _id },
+          { mainMenuId, secondaryMenuId, content }
+        );
+        result = { data: "", code: 200 };
+      } else {
+        await Articles({
+          mainMenuId,
+          secondaryMenuId,
+          content,
+          creater: currentUser.userName,
+        }).save();
+        result = { data: "", code: 200 };
+      }
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "fail", error);
+      next(err);
+    }
+  }
+
+  private async removeArticles(req: Request, res: Response, next: NF) {
+    let result: ApiResult;
+    try {
+      const { _id } = req.query;
+      await Articles.remove({ _id });
+      result = { data: "success", code: 200 };
+      res.json(result);
+    } catch (error) {
+      const err = new HTTPException(500, "fail");
+      next(err);
+    }
+  }
+  private async updateArticles(req: Request, res: Response, next: NF) {
     let result: ApiResult;
     try {
       const { user_id, role_id } = req.query;
@@ -152,6 +188,45 @@ export class ArticlesManagementController
     } catch (error) {
       const err = new HTTPException(500, "fail");
       next(err);
+    }
+  }
+  private async getList(req: Request, res: Response, next: NF) {
+    try {
+      const { _id } = req.query;
+      console.log(_id);
+      const x: any = [
+        {
+          $lookup: {
+            from: "articlecategories",
+            localField: "mainMenuId",
+            foreignField: "_id",
+            as: "mainMenu",
+          },
+        },
+
+        {
+          $lookup: {
+            from: "articlecategories",
+            localField: "secondaryMenuId",
+            foreignField: "_id",
+            as: "secondaryMenu",
+          },
+        },
+      ];
+      if (_id) {
+        const y = {
+          $match: {
+            _id: mongoose.Types.ObjectId(_id),
+          },
+        };
+        x.push(y);
+      }
+      const query = await Articles.aggregate(x);
+      const result: ApiResult = { data: query, code: 200 };
+      res.json(result);
+    } catch (error) {
+      const result: ApiResult = { data: error, code: 500 };
+      next(result);
     }
   }
 }

@@ -1,0 +1,92 @@
+<h3>文章分类</h3>
+<div class="editContentTop">
+  <button nz-button [nzType]="'primary'" (click)="showModal('create')">
+    <span>添加文章分类</span>
+  </button>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="modalTitle"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkDisabled]="!articlesTypeForm.valid"
+>
+  <form nz-form [formGroup]="articlesTypeForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="articleType"
+        >分类名称</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not valid name!"
+      >
+        <input nz-input formControlName="articleType" id="articleType" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="secondaryMenu"
+        >菜单类型</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not valid name!"
+      >
+        <nz-select formControlName = 'menuType'>
+          <nz-option
+            nzValue="mainMenu"
+            nzLabel="主菜单"
+          ></nz-option>
+          <nz-option nzValue="secondaryMenu" nzLabel="二级菜单"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+<nz-table
+  #basicTable
+  [nzData]="listOfData"
+  nzShowPagination="true"
+  [nzLoading]="isTableLoading"
+>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>类别</th>
+      <th>类型</th>
+      <th>创建人</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data._id }}</td>
+      <td>{{ data.articleType }}</td>
+      <td>{{ data.menuType }}</td>
+      <td>{{ data.creater }}</td>
+      <td>{{ data.createTime }}</td>
+      <td>
+        <button
+          style="margin-right: 5px"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure delete this task?"
+          (nzOnConfirm)="removeAticlesType(data._id)"
+          (nzOnCancel)="cancel()"
+          nzPopconfirmPlacement="top"
+          nz-button
+          nzType="primary"
+        >
+          删除
+        </button>
+        <button nz-button nzType="primary" (click)="showModal('update', data)">
+          更新
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

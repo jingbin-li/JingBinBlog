@@ -1,0 +1,6 @@
+export enum IMAGE_TYPE {
+  ARTICLES_IMAGE = 1,
+  COVER_IMAGE = 2,
+  PORTRAIT_IMAGE = 3,
+  BLOG_BACK_GROUND = 4,
+}
