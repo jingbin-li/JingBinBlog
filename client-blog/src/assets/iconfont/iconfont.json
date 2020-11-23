@@ -1,0 +1,23 @@
+{
+  "id": "2204540",
+  "name": "JingBinBlog",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "个人博客",
+  "glyphs": [
+    {
+      "icon_id": "887962",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "6756285",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    }
+  ]
+}
