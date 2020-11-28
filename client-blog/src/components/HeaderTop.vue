@@ -1,6 +1,8 @@
 <template>
   <div class="header-top">
-    <NavBar></NavBar>
+    <div class="NavBar">
+      <NavBar></NavBar>
+    </div>
     <div class="header-content">
       <div class="focusinfo">
         <div class="top-header">
@@ -77,12 +79,11 @@ export default {
   text-align: center;
   .focusinfo {
     display: inline-block;
-    width: 800px;
+    width: 100%;
     .top-header {
       text-align: center;
       img {
         width: 80px;
-        height: auto;
         border-radius: 50%;
         border: 3px solid rgba(255, 255, 255, 0.3);
       }
@@ -91,7 +92,7 @@ export default {
       display: inline-block;
       margin: 20px 0px;
       background: rgba(0, 0, 0, 0.3);
-      width: 60%;
+      width: 30%;
       padding: 30px;
       color: white;
       border-radius: 10px;
@@ -116,6 +117,17 @@ export default {
         }
       }
     }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .header-content .focusinfo .signature {
+    width: 70%;
+  }
+  .header-content .focusinfo .top-header{
+    margin-top: 20px;
+  }
+  .header-top {
+    height: 100%;
   }
 }
 </style>

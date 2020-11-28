@@ -3,13 +3,36 @@
     <div class="nav-bar">
       <ul>
         <li v-for="(item, index) in navList" :key="index">
-          <a href=""> {{ item }}</a>
+          <router-link :to="item.router">{{item.name}}</router-link>
         </li>
       </ul>
       <div class="search">
-        <i class="iconfont" @click="showSearch">&#xe62c;</i>
+        <i class="iconfont" @click="isShowSearch = !isShowSearch">&#xe62c;</i>
       </div>
     </div>
+    <div class="mobile-style">
+      <div class="mobile-nav-bar">
+        <i @click="expendMenuList" class="iconfont">&#xe63c;</i>
+      </div>
+      <transition name="mobileMenuList">
+        <div class="mobileMenu" v-show="isShowMobileMenuList">
+          <ul>
+            <li v-for="(item, index) in navList" :key="index">
+              <router-link :to="item.router">{{item.name}}</router-link>
+            </li>
+            <li style="padding:5px 10px">
+              <i class="iconfont" @click="showMobileSearch = !showMobileSearch"
+                >&#xe62c;</i
+              >
+            </li>
+            <li v-show="showMobileSearch">
+              <input type="text" placeholder="Search" />
+            </li>
+          </ul>
+        </div>
+      </transition>
+    </div>
+
     <transition name="searchPop">
       <div class="search-modal" v-show="isShowSearch">
         <div class="search-content">
@@ -29,13 +52,21 @@ export default {
   name: "NavBar",
   data() {
     return {
-      navList: ["首页", "关于", "文章", "留言板"],
+      navList: [
+        { name: "首页", router: "/" },
+        { name: "关于", router: "about" },
+        { name: "文章", router: "articles" },
+        { name: "留言板", router: "messageBoard" },
+      ],
       isShowSearch: false,
+      isShowMobileMenuList: false,
+      showMobileSearch: false,
     };
   },
   methods: {
-    showSearch() {
-      this.isShowSearch = !this.isShowSearch;
+    expendMenuList() {
+      this.isShowMobileMenuList = !this.isShowMobileMenuList;
+      this.showMobileSearch = false;
     },
   },
   mounted() {
@@ -146,5 +177,58 @@ export default {
 .search {
   margin: 0 50px 0 20px;
   cursor: pointer;
+}
+.mobile-style {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .nav-bar,
+  .searchPop {
+    display: none;
+  }
+  .nav {
+    height: 100%;
+    padding: 0px 15px;
+  }
+  .mobile-style {
+    display: block;
+    .mobile-nav-bar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      //margin-bottom: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .mobileMenu {
+      // background-color: rgb(128, 99, 55);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      li {
+        padding: 5px 10px;
+        input {
+          padding: 5px 10px;
+          background-color: rgba(0, 0, 0, 0);
+          border: none;
+          border-bottom: 2px solid #f4606c;
+        }
+      }
+    }
+  }
+  .mobileMenuList-enter-active,
+  .mobileMenuList-leave-active {
+    transition: all 0.4s ease;
+  }
+  .mobileMenuList-enter {
+    height: 0px;
+  }
+  .mobileMenuList-enter-to {
+    height: 169px;
+  }
+  .mobileMenuList-leave {
+    height: 169px;
+  }
+  .mobileMenuList-leave-to {
+    height: 0px;
+  }
 }
 </style>

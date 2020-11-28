@@ -1,15 +1,13 @@
 <template>
   <div id="app">
-    <Home></Home>
+    <router-view></router-view>
   </div>
 </template>
 <script>
-import Home from "./views/Home"
 import "../src/assets/iconfont/iconfont.css";
 export default {
   name: "app",
   components: {
-    Home
   }
 };
 </script>

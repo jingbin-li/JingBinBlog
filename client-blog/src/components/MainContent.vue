@@ -3,22 +3,23 @@
     <div class="content-type">
       <h1>若不衣锦不还乡</h1>
     </div>
-    <el-row :gutter="20">
+    <el-row>
       <el-col
         :span="12"
         class="card-item"
-        v-for="(item, index) in dataList"
-        :key="index"
+        v-for="item in dataList"
+        :key="item.title"
+        :xs="24"
       >
         <div
           class="hover-effect smoothie"
-          @mouseover="mouseOver(index)"
-          @mouseleave="mouseLeave(index)"
+          @mouseover="mouseOver(item)"
+          @mouseleave="mouseLeave(item)"
         >
           <a href="" class="smoothie">
             <img
               :class="{
-                effectImage: isEffect && item.tag,
+                effectImage: checkTouchItem(item),
               }"
               class="img-responsive smoothie"
               src="../assets/blog-large-1.jpeg"
@@ -26,7 +27,7 @@
             />
           </a>
           <div
-            :class="{ 'hover-overlay': isEffect && item.tag }"
+            :class="{ 'hover-overlay': checkTouchItem(item) }"
             class="overlay"
           >
             <div class="bottom-content">
@@ -35,7 +36,7 @@
             </div>
           </div>
           <div
-            :class="{ 'hover-dark-overlay': isEffect && item.tag }"
+            :class="{ 'hover-dark-overlay': checkTouchItem(item) }"
             class="dark-overlay"
           >
             <p class="brief">
@@ -62,17 +63,15 @@ export default {
   name: "MaxinContent",
   data() {
     return {
-      isEffect: false,
+      currentItem: {},
       dataList: [
         {
           title: "若不衣锦不还乡",
-          tag: false,
           content:
             "大地最懂我胸膛 好男儿志在远方 为找炎黄曲悠扬 人生不过醒时梦一场一身胆色和热肠 若不衣锦不还乡 若不衣锦不还乡 大地最懂我胸膛",
         },
         {
           title: "若不衣锦",
-          tag: false,
           content:
             "大地最懂我胸膛 好男儿志在远方 为找炎黄曲悠扬 人生不过醒时梦一场 一身胆色和热肠 若不衣锦不还乡 若不衣锦不还乡 大地最懂我胸膛",
         },
@@ -80,13 +79,14 @@ export default {
     };
   },
   methods: {
-    mouseOver(index) {
-      this.isEffect = true;
-      this.dataList[index].tag = true;
+    mouseOver(item) {
+      this.currentItem = item;
     },
-    mouseLeave(index) {
-      this.isEffect = false;
-      this.dataList[index].tag = false;
+    mouseLeave() {
+      this.currentItem = {};
+    },
+    checkTouchItem(item) {
+      return this.currentItem === item;
     },
   },
 };
@@ -99,7 +99,7 @@ export default {
   height: 1000px;
 }
 .content-type {
-  margin: 20px 0px;
+  margin: 20px 10px;
   padding-bottom: 15px;
   border-bottom: 1px dashed black;
   h1 {
@@ -108,7 +108,6 @@ export default {
 }
 .hover-effect {
   position: relative;
-  //   overflow: hidden;
   .article-title {
     margin-bottom: 8%;
   }
@@ -127,7 +126,6 @@ export default {
   }
   .effectImage {
     transform: scale(1);
-    backface-visibility: hidden;
   }
   .overlay {
     position: absolute;
@@ -218,12 +216,15 @@ export default {
 }
 .card-item {
   display: block;
-  height: 339px;
+  padding: 0px 10px;
+  margin-bottom: 20px;
 }
 img {
   vertical-align: middle;
 }
-.test {
-  color: red;
+@media only screen and (max-width: 768px) {
+  .content{
+    padding-top: 0px;
+  }
 }
 </style>

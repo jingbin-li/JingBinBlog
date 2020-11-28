@@ -1,13 +1,12 @@
 @font-face {
   font-family: 'iconfont';  /* project id 2204540 */
-  src: url('//at.alicdn.com/t/font_2204540_392a0ekx08r.eot');
-  src: url('//at.alicdn.com/t/font_2204540_392a0ekx08r.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_2204540_392a0ekx08r.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_2204540_392a0ekx08r.woff') format('woff'),
-  url('//at.alicdn.com/t/font_2204540_392a0ekx08r.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_2204540_392a0ekx08r.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_2204540_ntfi008q5dm.eot');
+  src: url('//at.alicdn.com/t/font_2204540_ntfi008q5dm.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_2204540_ntfi008q5dm.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_2204540_ntfi008q5dm.woff') format('woff'),
+  url('//at.alicdn.com/t/font_2204540_ntfi008q5dm.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_2204540_ntfi008q5dm.svg#iconfont') format('svg');
 }
-
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 32px;
