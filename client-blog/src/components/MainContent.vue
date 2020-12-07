@@ -223,7 +223,7 @@ img {
   vertical-align: middle;
 }
 @media only screen and (max-width: 768px) {
-  .content{
+  .content {
     padding-top: 0px;
   }
 }

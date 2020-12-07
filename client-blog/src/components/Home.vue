@@ -12,7 +12,7 @@ import MainContent from "../components/MainContent";
 import Loading from "./Loading";
 // @ is an alias to /src
 export default {
-  name: "Container",
+  name: "Home",
   components: {
     HeaderTop,
     MainContent,

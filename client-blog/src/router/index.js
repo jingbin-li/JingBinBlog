@@ -1,18 +1,28 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import About from "../components/About.vue";
+const Home = () => import("../components/Home.vue");
+const About = () => import("../components/About.vue");
+const Articles = () => import("../components/Articles.vue");
+const MessageBoard = () => import("../components/MessageBoard.vue");
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "home",
+    path: "/home",
     name: "Home",
     component: Home,
   },
   {
     path: "/about",
     component: About,
+  },
+  {
+    path: "/articles",
+    component: Articles,
+  },
+  {
+    path: "/messageBoard",
+    component: MessageBoard,
   },
 ];
 
