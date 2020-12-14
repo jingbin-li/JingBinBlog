@@ -45,10 +45,6 @@ export default {
       loading: true,
       title: "大鹏真的帅",
       isNowRead:false,
-      testData:{
-        test:false
-      },
-      test:[],
       articlesData: [
         {
           id: 1,
@@ -113,7 +109,6 @@ export default {
   },
   mounted() {
     this.initDataList()
-    console.log(this.test);
     setTimeout(() => {
       this.loading = false;
     }, 1000);
