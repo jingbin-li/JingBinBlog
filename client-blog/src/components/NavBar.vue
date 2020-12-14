@@ -3,7 +3,7 @@
     <div class="nav-bar">
       <ul>
         <li v-for="(item, index) in navList" :key="index">
-          <router-link :to="item.router">{{item.name}}</router-link>
+          <router-link :to="item.router">{{ item.name }}</router-link>
         </li>
       </ul>
       <div class="search">
@@ -18,7 +18,7 @@
         <div class="mobileMenu" v-show="isShowMobileMenuList">
           <ul>
             <li v-for="(item, index) in navList" :key="index">
-              <router-link :to="item.router">{{item.name}}</router-link>
+              <router-link :to="item.router">{{ item.name }}</router-link>
             </li>
             <li style="padding:5px 10px">
               <i class="iconfont" @click="showMobileSearch = !showMobileSearch"
@@ -107,8 +107,20 @@ export default {
   }
 }
 .nav {
-  height: 80px;
+  // height: 80px;
 }
+.clearfix:after {
+  /*伪元素是行内元素 正常浏览器清除浮动方法*/
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.clearfix {
+  *zoom: 1; /*ie6清除浮动的方式 *号只有IE6-IE7执行，其他浏览器不执行*/
+}
+
 .search-modal {
   z-index: 999;
   position: fixed;
@@ -201,6 +213,8 @@ export default {
     }
     .mobileMenu {
       // background-color: rgb(128, 99, 55);
+      background: rgba(0, 0, 0, 0.3);
+
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       overflow: hidden;
       li {

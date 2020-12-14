@@ -77,6 +77,7 @@ export default {
 }
 .header-content {
   text-align: center;
+  padding-top: 80px;
   .focusinfo {
     display: inline-block;
     width: 100%;
@@ -123,7 +124,7 @@ export default {
   .header-content .focusinfo .signature {
     width: 70%;
   }
-  .header-content .focusinfo .top-header{
+  .header-content .focusinfo .top-header {
     margin-top: 20px;
   }
   .header-top {

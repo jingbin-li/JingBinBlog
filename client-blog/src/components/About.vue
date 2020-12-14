@@ -48,6 +48,7 @@ export default {
 <style lang="less" scoped>
 .about {
   transition: all 0.4s;
+  padding-top: 80px;
 }
 .content {
   max-width: 800px;
@@ -93,6 +94,9 @@ export default {
 @media only screen and (max-width: 768px) {
   .top {
     background-image: url("../assets/about_back.jpg");
+  }
+  .about {
+    padding-top: 0;
   }
 }
 </style>
