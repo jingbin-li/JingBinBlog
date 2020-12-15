@@ -15,10 +15,12 @@
           </p>
         </div>
         <div class="footer">
-          <a class="btn" @click="nowRead(index)">{{ item.isExpend?'取消阅读':'现在阅读' }}</a>
+          <a class="btn" @click="nowRead(index)">{{
+            item.isExpend ? "取消阅读" : "现在阅读"
+          }}</a>
           <div class="time">
-            <p>最后一次更新：{{item.updateTime}}</p>
-            <p>创建时间：{{item.createTime}}</p>
+            <p>最后一次更新：{{ item.updateTime }}</p>
+            <p>创建时间：{{ item.createTime }}</p>
           </div>
         </div>
       </div>
@@ -44,7 +46,7 @@ export default {
     return {
       loading: true,
       title: "大鹏真的帅",
-      isNowRead:false,
+      isNowRead: false,
       articlesData: [
         {
           id: 1,
@@ -52,6 +54,7 @@ export default {
           content:
             "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
           createTime: "2020-10-1",
+          // isExpend: false,
           updateTime: "2020-11-11",
         },
         {
@@ -60,6 +63,7 @@ export default {
           content:
             "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
           createTime: "2020-10-1",
+          // isExpend: false,
           updateTime: "2020-11-11",
         },
         {
@@ -68,6 +72,7 @@ export default {
           content:
             "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
           createTime: "2020-10-1",
+          // isExpend: false,
           updateTime: "2020-11-11",
         },
       ],
@@ -82,7 +87,7 @@ export default {
         this.articlesData[elseIndex].isExpend = false;
       }
       currentData.isExpend = !currentData.isExpend;
-      this.isNowRead = ! currentData.isExpend;
+      this.isNowRead = !currentData.isExpend;
       if (currentData.isExpend) {
         const height = this.$refs.detial_box[index].offsetHeight + "px";
         this.$refs.box[index].style.height = height;
@@ -90,7 +95,6 @@ export default {
       } else {
         this.$refs.box[index].style.height = "42px";
       }
-      this.$forceUpdate()
     },
     getIsExpend(currentIndex) {
       return this.articlesData.findIndex((x, index) => {
@@ -102,13 +106,13 @@ export default {
     },
     initDataList() {
       this.articlesData.map((item) => {
-        item.isExpend = false;
+        this.$set(item, 'isExpend', false)
       });
-      console.log(this.articlesData)
+      console.log(this.articlesData);
     },
   },
   mounted() {
-    this.initDataList()
+    this.initDataList();
     setTimeout(() => {
       this.loading = false;
     }, 1000);
