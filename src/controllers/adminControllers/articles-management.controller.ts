@@ -142,19 +142,26 @@ export class ArticlesManagementController
     const currentUser = httpContext.get("user");
     let result: ApiResult;
     try {
-      const { _id, mainMenuId, secondaryMenuId, content } = req.body;
+      const {
+        _id,
+        mainMenuId,
+        secondaryMenuId,
+        content,
+        briefContent,
+      } = req.body;
       if (_id) {
         await Articles.update(
           { _id },
-          { mainMenuId, secondaryMenuId, content }
+          { mainMenuId, secondaryMenuId, content, briefContent }
         );
         result = { data: "", code: 200 };
       } else {
-        await Articles({
+        await new Articles({
           mainMenuId,
           secondaryMenuId,
           content,
           creater: currentUser.userName,
+          briefContent,
         }).save();
         result = { data: "", code: 200 };
       }
@@ -216,7 +223,7 @@ export class ArticlesManagementController
       if (_id) {
         const y = {
           $match: {
-            _id: mongoose.Types.ObjectId(_id),
+            _id: mongoose.Types.ObjectId(<string>_id),
           },
         };
         x.push(y);

@@ -19,6 +19,7 @@ export class EditArticlesComponent implements OnInit {
   selectMainMenu = null;
   selectSecondaryMenu = null;
   articleId: any;
+  briefContent: string;
   constructor(
     private http: HttpClient,
     private message: NzMessageService,
@@ -96,6 +97,7 @@ export class EditArticlesComponent implements OnInit {
       mainMenuId: this.selectMainMenu,
       secondaryMenuId: this.selectSecondaryMenu,
       content: this.content,
+      briefContent: this.briefContent,
     };
     const result = await this.http
       .post<ApiResult>('/api/v1/admin/articles', postData)
@@ -106,7 +108,7 @@ export class EditArticlesComponent implements OnInit {
       this.message.create('error', '创建失败');
     }
   }
- 
+
   async getArticles(id) {
     const params = new HttpParams().set('_id', id);
     const re = await this.http
@@ -118,5 +120,13 @@ export class EditArticlesComponent implements OnInit {
     this.content = article.content;
     this.selectMainMenu = article.mainMenu[0]._id;
     this.selectSecondaryMenu = article.secondaryMenu[0]._id;
+    this.briefContent = article.briefContent;
+  }
+  handleOk() {
+    this.isVisible = false;
+    console.log(this.briefContent);
+  }
+  handleCancel() {
+    this.isVisible = false;
   }
 }

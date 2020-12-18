@@ -3,6 +3,9 @@ import { Schema, Model } from "mongoose";
 import { ArticlesDocument } from "../interface";
 const ArticlesDocument: Schema<ArticlesDocument> = new Schema(
   {
+    briefContent: {
+      type: String,
+    },
     content: {
       type: String,
     },

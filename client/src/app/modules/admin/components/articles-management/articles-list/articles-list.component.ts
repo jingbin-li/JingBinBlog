@@ -18,6 +18,7 @@ export class ArticlesListComponent implements OnInit {
   listOfData = [];
   isVisible = false;
   articlesContents = '';
+  briefContent = '';
   constructor(
     private http: HttpClient,
     private message: NzMessageService,
@@ -50,8 +51,9 @@ export class ArticlesListComponent implements OnInit {
     this.router.navigateByUrl(`/home/articles/editArticles?articlesId=${id}`);
   }
 
-  previewContents(content) {
-    this.articlesContents = content;
+  previewContents(data) {
+    this.articlesContents = data.content;
+    this.briefContent = data.briefContent;
     this.isVisible = true;
   }
   handleOk() {
