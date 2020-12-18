@@ -4,7 +4,7 @@
     <div class="top">
       <NavBar></NavBar>
     </div>
-    <Top :title="title"></Top>
+    <Top :title="title" :imageSrc="imageSrc"></Top>
     <div v-for="(item, index) in articlesData" :key="item.id">
       <div class="content">
         <h1>{{ title }}</h1>
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <Comments></Comments>
+    <Comments :type='type'></Comments>
   </div>
 </template>
 
@@ -45,8 +45,10 @@ export default {
   data() {
     return {
       loading: true,
-      title: "大鹏真的帅",
+      title: "文章",
       isNowRead: false,
+      imageSrc:'../assets/1.jpg',
+      type:'comment',
       articlesData: [
         {
           id: 1,
@@ -54,7 +56,6 @@ export default {
           content:
             "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
           createTime: "2020-10-1",
-          // isExpend: false,
           updateTime: "2020-11-11",
         },
         {
@@ -63,7 +64,6 @@ export default {
           content:
             "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
           createTime: "2020-10-1",
-          // isExpend: false,
           updateTime: "2020-11-11",
         },
         {
@@ -72,7 +72,6 @@ export default {
           content:
             "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
           createTime: "2020-10-1",
-          // isExpend: false,
           updateTime: "2020-11-11",
         },
       ],

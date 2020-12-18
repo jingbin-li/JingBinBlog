@@ -10,23 +10,28 @@
 import HeaderTop from "../components/HeaderTop";
 import MainContent from "../components/MainContent";
 import Loading from "./Loading";
+import * as axios from "axios";
 // @ is an alias to /src
 export default {
   name: "Home",
   components: {
     HeaderTop,
     MainContent,
-    Loading
+    Loading,
   },
-  data(){
+  data() {
     return {
-      loading:true
-    }
+      loading: false,
+    };
   },
   mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    axios
+      .get("api/v1/home/articlesList")
+      .then((res) => console.log(res.data))
+      .catch(function(error) {
+        // 请求失败处理
+        console.log(error);
+      });
   },
 };
 </script>

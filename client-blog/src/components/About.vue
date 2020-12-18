@@ -16,7 +16,7 @@
         公司97%的收入，与我的代码有关。”
       </p>
     </div>
-    <Comments></Comments>
+    <Comments :type='type'></Comments>
   </div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       loading: true,
+      type:'comment'
     };
   },
   methods: {},

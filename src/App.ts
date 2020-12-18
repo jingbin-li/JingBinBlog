@@ -24,10 +24,19 @@ export class App {
   //初始化中间件
   private initializeMiddleware(controllers: IController[]) {
     //this.app.use(cors());
+    // this.app.all("*", function (req, res, next) {
+    //   res.header("Access-Control-Allow-Origin", "*"); //当允许携带cookies此处的白名单不能写’*’
+    //   res.header(
+    //     "Access-Control-Allow-Headers",
+    //     "content-type,Content-Length, Authorization,Origin,Accept,X-Requested-With"
+    //   ); //允许的请求头
+    //   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT"); //允许的请求方法
+    //   next();
+    // });
     //可以用json处理post请求体
     this.app.use(express.json());
     this.app.use(logger("dev"));
-    this.app.use(express.static('public'));
+    this.app.use(express.static("public"));
     this.app.use(httpContext.middleware);
     this.app.use(VerificationJwt);
     this.initializeControllers(controllers);

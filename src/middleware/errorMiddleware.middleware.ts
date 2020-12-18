@@ -5,7 +5,7 @@ import { HTTPException } from "./middlewareModel/HTTPException";
 
 //路由匹配失败中间件
 const NotMatchedRoute = (_req: Request, _res: Response, next: NF) => {
-  const error: HTTPException = new HTTPException(404, "未分配路由");
+  const error: HTTPException = new HTTPException(404, `未分配路由${_req.url}`);
   next(error);
 };
 //错误处理中间件

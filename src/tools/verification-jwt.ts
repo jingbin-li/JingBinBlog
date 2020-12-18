@@ -9,6 +9,8 @@ import { HTTPException } from "../middleware/middlewareModel/HTTPException";
 const VerificationJwt = (req: Request, res: Response, next: NF) => {
   const token = req.headers.authorization;
   const privateKey = process.env.SECRET_KEY;
+  const reqUrl = req.url;
+  const urlSplit = reqUrl.split("/");
   if (token) {
     jwt.verify(token, privateKey, (err, decoded) => {
       if (err) {
@@ -24,12 +26,15 @@ const VerificationJwt = (req: Request, res: Response, next: NF) => {
       }
     });
   } else {
-    const reqUrl = req.url;
     if (reqUrl === "/api/v1/user/verification") {
       next();
     } else {
-      const reuslt = new HTTPException(404, "No Authority");
-      next(reuslt);
+      if (urlSplit[3] !== "admin") {
+        next();
+      } else {
+        const reuslt = new HTTPException(404, "No Authority");
+        next(reuslt);
+      }
     }
     //next();
   }

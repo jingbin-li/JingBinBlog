@@ -30,12 +30,12 @@ export class EditArticlesComponent implements OnInit {
     // base_url: '/assets',
     height: 'calc(100vh - 395px)',
     menubar: false,
-    plugins: ['emoticons image media code link'],
+    plugins: ['emoticons image media code link codesample'],
     toolbar:
       'undo redo | formatselect | bold italic backcolor | \
         alignleft aligncenter alignright alignjustify | \
         bullist numlist outdent indent | removeformat |\
-        emoticons |image| media| link|code',
+        emoticons |image| media| link|code|codesample',
     language: 'zh_CN',
     language_url: '/assets/tinymce/lang/zh_CN.js',
     //relative_urls: true,

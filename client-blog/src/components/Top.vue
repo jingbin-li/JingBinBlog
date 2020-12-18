@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="top-image">
-      <div class="iamge-detail"></div>
+      <div class="iamge-detail">
+        <img src="../assets/1.jpg" alt="图片" />
+      </div>
       <div class="title">
         <h1>{{ title }}</h1>
       </div>
@@ -13,6 +15,10 @@
 export default {
   name: "Top",
   props: ["title"],
+  data(){
+    return{
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -22,14 +28,18 @@ export default {
   overflow: hidden;
 }
 .iamge-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url("../assets/1.jpg");
+  width: 100%;
+}
+img {
+  width: 100%;
+  height: 100%;
   transition: all 0.8s ease;
 }
-.iamge-detail:hover {
+img:hover {
   transform: scale(1.2);
 }
 .title {
@@ -44,6 +54,5 @@ export default {
   background: rgba(0, 0, 0, 0.3);
 }
 @media only screen and (max-width: 768px) {
-  
 }
 </style>

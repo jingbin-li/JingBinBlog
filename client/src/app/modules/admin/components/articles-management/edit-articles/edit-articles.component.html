@@ -6,12 +6,21 @@
       <nz-option [nzValue]="item._id" [nzLabel]="item.articleType"></nz-option>
     </ng-container>
   </nz-select>
-  <span>二级菜单：</span>
+  <span>文章名称：</span>
   <nz-select [(ngModel)]="selectSecondaryMenu">
     <ng-container *ngFor="let item of secondaryMenu">
       <nz-option [nzValue]="item._id" [nzLabel]="item.articleType"></nz-option>
     </ng-container>
   </nz-select>
+  <span>简介：</span>
+  <button
+    nz-button
+    [nzType]="'primary'"
+    (click)="submitArticle()"
+    [disabled]="!(selectMainMenu && selectSecondaryMenu)"
+  >
+    <span>添加简介</span>
+  </button>
   <button
     nz-button
     [nzType]="'primary'"
@@ -21,5 +30,51 @@
     <span>提交</span>
   </button>
 </div>
+<div class="editContentTop">
+  <button nz-button [nzType]="'primary'" (click)="showModal('create')">
+    <span>添加文章分类</span>
+  </button>
+</div>
 
+<!-- <nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="modalTitle"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkDisabled]="!articlesTypeForm.valid"
+>
+  <form nz-form [formGroup]="articlesTypeForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="articleType"
+        >分类名称</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not valid name!"
+      >
+        <input nz-input formControlName="articleType" id="articleType" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="secondaryMenu"
+        >菜单类型</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not valid name!"
+      >
+        <nz-select formControlName = 'menuType'>
+          <nz-option
+            nzValue="mainMenu"
+            nzLabel="主菜单"
+          ></nz-option>
+          <nz-option nzValue="secondaryMenu" nzLabel="标题"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal> -->
 <editor [init]="editorConfig" [(ngModel)]="content"></editor>
