@@ -8,7 +8,7 @@
         :span="12"
         class="card-item"
         v-for="item in dataList"
-        :key="item.title"
+        :key="item._id"
         :xs="24"
       >
         <div
@@ -22,7 +22,7 @@
                 effectImage: checkTouchItem(item),
               }"
               class="img-responsive smoothie"
-              src="../assets/blog-large-1.jpeg"
+              :src="item.imgSrc"
               alt=""
             />
           </a>
@@ -31,7 +31,7 @@
             class="overlay"
           >
             <div class="bottom-content">
-              <h4>若不衣锦不还乡</h4>
+              <h4>{{ item.secondaryMenu[0].articleType }}</h4>
               <div class="title-box">若不衣锦不还乡</div>
             </div>
           </div>
@@ -41,15 +41,16 @@
           >
             <p class="brief">
               <small>
-                大地最懂我胸膛 好男儿志在远方 为找炎黄曲悠扬 人生不过醒时梦一场
-                一身胆色和热肠 若不衣锦不还乡 若不衣锦不还乡 大地最懂我胸膛
-                好男儿志在远方 为找炎黄曲悠扬 人生不过醒时梦一场 一身胆色和热肠
-                若不衣锦不还乡 若不衣锦不还乡
+                {{ item.briefContent }}
               </small>
             </p>
 
             <div class="bottom-content">
-              <a class="btn">现在阅读</a>
+              <router-link
+                :to="{ path: '/articles/details', query: { id: item._id } }"
+              >
+                <a class="btn">现在阅读</a>
+              </router-link>
             </div>
           </div>
         </div>
@@ -59,23 +60,13 @@
 </template>
 
 <script>
+import * as axios from "axios";
 export default {
   name: "MaxinContent",
   data() {
     return {
       currentItem: {},
-      dataList: [
-        {
-          title: "若不衣锦不还乡",
-          content:
-            "大地最懂我胸膛 好男儿志在远方 为找炎黄曲悠扬 人生不过醒时梦一场一身胆色和热肠 若不衣锦不还乡 若不衣锦不还乡 大地最懂我胸膛",
-        },
-        {
-          title: "若不衣锦",
-          content:
-            "大地最懂我胸膛 好男儿志在远方 为找炎黄曲悠扬 人生不过醒时梦一场 一身胆色和热肠 若不衣锦不还乡 若不衣锦不还乡 大地最懂我胸膛",
-        },
-      ],
+      dataList: [],
     };
   },
   methods: {
@@ -88,10 +79,35 @@ export default {
     checkTouchItem(item) {
       return this.currentItem === item;
     },
+    getArticlesList() {
+      axios
+        .get("api/v1/home/articlesList")
+        .then((res) => {
+          this.dataList = res.data.data;
+          this.addImgSrc(this.dataList);
+          console.log(this.dataList);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    addImgSrc(data) {
+      for (const item of data) {
+        const count = Math.round(Math.random() * 7 + 1);
+        this.$set(item, "imgSrc", require(`../assets/blog-large-${count}.jpg`));
+      }
+    },
+  },
+  created() {
+    this.getArticlesList();
   },
 };
 </script>
 <style lang="less" scoped>
+small {
+  max-height: 100%;
+  overflow: hidden;
+}
 .content {
   padding: 40px 0px;
   max-width: 1200px;

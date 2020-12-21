@@ -10,7 +10,6 @@
 import HeaderTop from "../components/HeaderTop";
 import MainContent from "../components/MainContent";
 import Loading from "./Loading";
-import * as axios from "axios";
 // @ is an alias to /src
 export default {
   name: "Home",
@@ -24,15 +23,9 @@ export default {
       loading: false,
     };
   },
-  mounted() {
-    axios
-      .get("api/v1/home/articlesList")
-      .then((res) => console.log(res.data))
-      .catch(function(error) {
-        // 请求失败处理
-        console.log(error);
-      });
+  methods: {
   },
+  mounted() {},
 };
 </script>
 <style lang="less" scoped>

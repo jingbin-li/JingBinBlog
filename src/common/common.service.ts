@@ -7,7 +7,7 @@ import * as multiparty from "multiparty";
 import * as moment from "moment";
 import { Articles } from "../models/Articles.schema";
 import * as mongoose from "mongoose";
-const getArticlesList = async () => {
+const getArticlesList = async (type: string, _id?: string) => {
   try {
     const x: any = [
       {
@@ -27,7 +27,20 @@ const getArticlesList = async () => {
           as: "secondaryMenu",
         },
       },
+      {
+        $match: {
+          articlesType: type,
+        },
+      },
     ];
+    if (_id) {
+      const y = {
+        $match: {
+          _id: mongoose.Types.ObjectId(<string>_id),
+        },
+      };
+      x.push(y);
+    }
     const query = await Articles.aggregate(x);
     const result: ApiResult = { data: query, code: 200 };
     return result;

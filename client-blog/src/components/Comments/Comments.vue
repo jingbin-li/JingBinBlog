@@ -3,10 +3,12 @@
     <div>
       <div class="notification" @click="showCommentsFun" v-if="!isShowComments">
         <i class="iconfont">&#xe603;</i>
-        <span>查看{{commentsType[type]}}</span>
+        <span>查看{{ commentsType[type] }}</span>
       </div>
       <div class="comments-box transition_dom" ref="box">
-        <div class="comments-total">Comments | {{ commentsTotal }}条{{commentsType[type]}}</div>
+        <div class="comments-total">
+          Comments | {{ commentsTotal }}条{{ commentsType[type] }}
+        </div>
         <CommentsContent
           :commentsList="commentsList"
           @resetheight="resetBoxHeight"
@@ -23,7 +25,7 @@ import CommentsContent from "./CommentsContent";
 import CommentsInput from "./CommentsInput";
 export default {
   name: "Comments",
-  props:['type'],
+  props: ["type", "articleId"],
   components: {
     CommentsContent,
     CommentsInput,
@@ -33,10 +35,10 @@ export default {
       isShowComments: false,
       commentsTotal: 0,
       height: "",
-      typeTitle:"",
-      commentsType:{
-        message:'留言',
-        comment:'评论'
+      typeTitle: "",
+      commentsType: {
+        message: "留言",
+        comment: "评论",
       },
       commentsList: [
         {
@@ -125,17 +127,19 @@ export default {
         }
       }
     },
-    getTyeOfComments(type){
-      switch(type){
-        case 'messageBoard':this.typeTitle = '留言';
-        break;
-        case 'comments':this.typeTitle = '评论';
-        break;
+    getTyeOfComments(type) {
+      switch (type) {
+        case "messageBoard":
+          this.typeTitle = "留言";
+          break;
+        case "comments":
+          this.typeTitle = "评论";
+          break;
       }
-    }
+    },
   },
   mounted() {
-    console.log();
+    console.log("=====>", this.articleId);
     this.getCommentsToal(this.commentsList);
     this.setCommentsBoxHeight();
     this.$store.commit("setResetMethod", this.resetBoxHeight);

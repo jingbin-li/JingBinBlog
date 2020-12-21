@@ -8,3 +8,6 @@ export * from "./IUsersList.interface";
 export * from "./ArticleCategoryDocument.interface";
 export * from "./ArticlesDocument.interface";
 export * from "./ImagePathDocument.interface";
+export * from "./ICommentsUserInfo.interface";
+export * from "./ICommentsNodeInfo.interface";
+export * from "./ICommentsMainTree.interface"

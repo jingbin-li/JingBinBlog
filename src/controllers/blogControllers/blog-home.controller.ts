@@ -18,7 +18,7 @@ export class HomeController extends AController implements IController {
 
   private async getBriefArticles(req: Request, res: Response, next: NF) {
     try {
-      const result = await getArticlesList();
+      const result = await getArticlesList("articles");
       res.json(result);
     } catch (error) {
       const result: ApiResult = { data: error, code: 500 };

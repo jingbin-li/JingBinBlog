@@ -5,27 +5,28 @@
       <NavBar></NavBar>
     </div>
     <Top :title="title" :imageSrc="imageSrc"></Top>
-    <div v-for="(item, index) in articlesData" :key="item.id">
+    <div v-for="item in articlesData" :key="item.id">
       <div class="content">
-        <h1>{{ title }}</h1>
-        <h2>大鹏真帅啊</h2>
-        <div class="content-detial" ref="box">
-          <p ref="detial_box">
-            {{ item.content }}
-          </p>
-        </div>
-        <div class="footer">
-          <a class="btn" @click="nowRead(index)">{{
-            item.isExpend ? "取消阅读" : "现在阅读"
-          }}</a>
-          <div class="time">
-            <p>最后一次更新：{{ item.updateTime }}</p>
-            <p>创建时间：{{ item.createTime }}</p>
+        <h1>{{ item.mainTitle }}</h1>
+        <div v-for="(data, index) in item.data" :key="data._id">
+          <h2>{{ data.secondaryMenu[0].articleType }}</h2>
+          <div class="content-detial" ref="box">
+            <p ref="detial_box" v-html="data.content"></p>
+          </div>
+          <div class="footer">
+            <a class="btn" @click="nowRead(index)">{{
+              data.isExpend ? "取消阅读" : "现在阅读"
+            }}</a>
+            <div class="time">
+              <p>最后一次更新：{{ data.updateTime }}</p>
+              <p>创建时间：{{ data.createTime }}</p>
+            </div>
           </div>
         </div>
+        <hr />
       </div>
     </div>
-    <Comments :type='type'></Comments>
+    <Comments :type="type"></Comments>
   </div>
 </template>
 
@@ -34,6 +35,9 @@ import NavBar from "./NavBar";
 import Loading from "./Loading";
 import Comments from "./Comments/Comments";
 import Top from "./Top";
+import axios from "axios";
+import _ from "lodash";
+import moment from "moment";
 export default {
   name: "Articles",
   components: {
@@ -45,36 +49,11 @@ export default {
   data() {
     return {
       loading: true,
-      title: "文章",
       isNowRead: false,
-      imageSrc:'../assets/1.jpg',
-      type:'comment',
-      articlesData: [
-        {
-          id: 1,
-          title: "大鹏真帅",
-          content:
-            "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
-          createTime: "2020-10-1",
-          updateTime: "2020-11-11",
-        },
-        {
-          id: 2,
-          title: "大鹏真帅",
-          content:
-            "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
-          createTime: "2020-10-1",
-          updateTime: "2020-11-11",
-        },
-        {
-          id: 3,
-          title: "大鹏真帅",
-          content:
-            "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
-          createTime: "2020-10-1",
-          updateTime: "2020-11-11",
-        },
-      ],
+      title: "文章",
+      imageSrc: "../assets/1.jpg",
+      type: "comment",
+      articlesData: [],
     };
   },
   methods: {
@@ -103,18 +82,37 @@ export default {
         return x.isExpend;
       });
     },
-    initDataList() {
-      this.articlesData.map((item) => {
-        this.$set(item, 'isExpend', false)
-      });
+    initDataList(data) {
+      const byMainId = _.groupBy(data, "mainMenuId");
+      const dataTotal = [...Object.values(byMainId)];
+      for (const iterator of dataTotal) {
+        iterator.map((item) => {
+          this.$set(item, "isExpend", false);
+          item.createTime = moment(item.createTime).format("YYYY-MM-DD HH:mm");
+          item.updateTime = moment(item.updateTime).format("YYYY-MM-DD HH:mm");
+        });
+        this.articlesData.push({
+          mainTitle: iterator[0].mainMenu[0].articleType,
+          data: iterator,
+        });
+      }
       console.log(this.articlesData);
+    },
+    getArticlesList() {
+      axios
+        .get("api/v1/home/articlesList")
+        .then((res) => {
+          const data = res.data.data;
+          this.initDataList(data);
+          this.loading = false;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
   },
   mounted() {
-    this.initDataList();
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    this.getArticlesList();
   },
 };
 </script>
@@ -195,7 +193,11 @@ export default {
     }
   }
 }
-
+hr {
+  margin-top: 20px;
+  border: 0px;
+  border-bottom: 1px dashed black;
+}
 @media only screen and (max-width: 768px) {
   .top {
     // display: block;

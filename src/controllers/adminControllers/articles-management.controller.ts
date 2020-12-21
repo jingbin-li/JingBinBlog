@@ -148,22 +148,26 @@ export class ArticlesManagementController
         secondaryMenuId,
         content,
         briefContent,
+        articlesType,
       } = req.body;
+      console.log(articlesType);
+
       if (_id) {
-        await Articles.update(
+        const y = await Articles.update(
           { _id },
-          { mainMenuId, secondaryMenuId, content, briefContent }
+          { mainMenuId, secondaryMenuId, content, briefContent, articlesType }
         );
-        result = { data: "", code: 200 };
+        result = { data: { _id }, code: 200 };
       } else {
-        await new Articles({
+        const x = await new Articles({
           mainMenuId,
           secondaryMenuId,
           content,
           creater: currentUser.userName,
           briefContent,
+          articlesType,
         }).save();
-        result = { data: "", code: 200 };
+        result = { data: x, code: 200 };
       }
       res.json(result);
     } catch (error) {

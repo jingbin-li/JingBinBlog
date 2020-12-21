@@ -9,9 +9,9 @@
         <div class="cancle-btn" @click="cancleReply">取消回复</div>
       </div>
       <div class="info transition_dom" ref="box">
-        <input type="text" placeholder="Name" />
-        <input type="text" placeholder="Email" />
-        <input type="text" placeholder="http://" />
+        <input type="text" placeholder="Name" v-model="name" />
+        <input type="text" placeholder="Email" v-model="email" />
+        <input type="text" placeholder="http://" v-model="http" />
       </div>
       <div class="comment-text">
         <textarea
@@ -20,10 +20,11 @@
           cols="30"
           rows="10"
           placeholder="come on baby"
+          v-model="content"
         ></textarea>
       </div>
       <div class="footer">
-        <a class="send-btn"> 发表评论</a>
+        <a class="send-btn" @click="submit"> 发表评论</a>
         <div class="expression">
           <div class="expression-logo">
             <span>OωO表情</span>
@@ -37,12 +38,17 @@
 
 <script>
 // import emoji from "../../emoji/emoji.json";
+import axios from "axios";
 export default {
   data() {
     return {
       height: "",
       isShow: false,
       faceList: [],
+      name: "",
+      email: "",
+      http: "",
+      content: "",
     };
   },
   props: ["currentId", "dataId"],
@@ -69,6 +75,22 @@ export default {
     cancleReply() {
       this.$store.commit("chanageCurrentId", -1);
       this.$store.state.resetMethod();
+    },
+    submit() {
+      const articleId = this.$store.state.currentArticleId;
+      const commentType =
+        this.$store.state.currentId === -1
+          ? "fatherComment"
+          : "childrenComment";
+      console.log("submit", articleId);
+      axios.post("/api/v1/comments/saveComments", {
+        name: this.name,
+        email: this.email,
+        http: this.http,
+        articleId,
+        commentType,
+        content: this.content,
+      });
     },
   },
   mounted() {

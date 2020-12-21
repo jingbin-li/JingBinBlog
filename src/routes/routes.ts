@@ -4,12 +4,20 @@ import {
   ArticlesManagementController,
   UserManagementController,
 } from "../controllers/adminControllers";
-import {HomeController} from "../controllers/blogControllers"
+import {
+  HomeController,
+  ArticlesController,
+  AboutController,
+  CommentsController,
+} from "../controllers/blogControllers";
 const controllers: { new (): IController }[] = [
   UserController,
   UserManagementController,
   ArticlesManagementController,
-  HomeController
+  HomeController,
+  ArticlesController,
+  AboutController,
+  CommentsController,
 ];
 const routes = controllers.map((item) => {
   return new item();

@@ -11,8 +11,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of basicTable.data">
-      <td>{{ data.secondaryMenu[0].articleType }}</td>
-      <td>{{ data.mainMenu[0].articleType }}</td>
+      <td>{{ data.secondaryMenu[0]?data.secondaryMenu[0].articleType:'-' }}</td>
+      <td>{{ data.mainMenu[0]?data.mainMenu[0].articleType:'关于' }}</td>
       <td>{{ data.creater }}</td>
       <td>{{ data.createTime }}</td>
       <td>{{ data.updateTime }}</td>
@@ -32,7 +32,7 @@
     </tr>
   </tbody>
   <nz-modal [(nzVisible)]="isVisible" nzTitle="预览文章" (nzOnOk)="handleOk()" (nzOnCancel)="handleCancel()"
-    [nzCancelText]="null">
+    [nzCancelText]="null" [nzWidth]='1000'>
     <div class="brief">{{briefContent}}</div>
     <div style="height: 600px; overflow: auto; background: #eeeeee">
       <p [innerHtml]="articlesContents | safeHtml"></p>

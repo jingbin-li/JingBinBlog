@@ -54,9 +54,9 @@ export default {
     return {
       navList: [
         { name: "首页", router: "/" },
-        { name: "关于", router: "about" },
-        { name: "文章", router: "articles" },
-        { name: "留言板", router: "messageBoard" },
+        { name: "关于", router: "/about" },
+        { name: "文章", router: "/articles" },
+        { name: "留言板", router: "/messageBoard" },
       ],
       isShowSearch: false,
       isShowMobileMenuList: false,

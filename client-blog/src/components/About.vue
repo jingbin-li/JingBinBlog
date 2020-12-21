@@ -7,16 +7,9 @@
     <div class="content">
       <h1>关于作者</h1>
       <h2>个人简介 | Resume</h2>
-      <p>
-        我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~
-        这里特别说一下关于 “不要自称为程序员” 的说法:
-        首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So
-        你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个
-        Google Adsense 程序员的自我介绍，是这样写的：”Google
-        公司97%的收入，与我的代码有关。”
-      </p>
+      <p v-html="aboutData.content"></p>
     </div>
-    <Comments :type='type'></Comments>
+    <Comments :type="type"></Comments>
   </div>
 </template>
 
@@ -24,6 +17,7 @@
 import NavBar from "./NavBar";
 import Loading from "./Loading";
 import Comments from "./Comments/Comments";
+import axios from "axios";
 export default {
   name: "About",
   components: {
@@ -34,15 +28,31 @@ export default {
   data() {
     return {
       loading: true,
-      type:'comment'
+      type: "comment",
+      aboutData: "",
+      articleId: "",
     };
   },
-  methods: {},
-  mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+  methods: {
+    getAbout() {
+      axios
+        .get("/api/v1/about/aboutArticles")
+        .then((x) => {
+          const data = x.data.data[0];
+          this.aboutData = data;
+          const articleId = data._id;
+          this.$store.commit("setCurrentArticleId", articleId);
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
+  created() {
+    this.getAbout();
+  },
+  mounted() {},
 };
 </script>
 

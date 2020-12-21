@@ -17,10 +17,10 @@ import {
 import { LoginModule } from 'src/app/login';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { BaseInterceptor } from '../../services/coreServices/base-interceptor';
-import { EditArticlesComponent } from './components/articles-management/edit-articles/edit-articles.component';
 import { ArticlesListComponent } from './components/articles-management/articles-list/articles-list.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { SafeHtmlPipe } from '../../pipe/safeHtml.pipe';
+import { EditArticlesComponent } from './components/articles-management/edit-articles/edit-articles.component';
 const Modules = [
   CommonModule,
   HttpClientModule,

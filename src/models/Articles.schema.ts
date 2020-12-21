@@ -18,6 +18,9 @@ const ArticlesDocument: Schema<ArticlesDocument> = new Schema(
     cover: {
       type: String,
     },
+    articlesType: {
+      type: String,
+    },
     mainMenuId: {
       type: mongoose.Schema.Types.ObjectId,
     },

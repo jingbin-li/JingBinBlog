@@ -8,6 +8,7 @@ export default new Vuex.Store({
     currentId: -1,
     closeAreMethod: "",
     resetMethod: "",
+    currentArticleId: "",
   },
   mutations: {
     chanageCurrentId(state, id) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     setResetMethod(state, payload) {
       state.resetMethod = payload;
+    },
+    setCurrentArticleId(state, id) {
+      state.currentArticleId = id;
     },
   },
   actions: {},

@@ -9,6 +9,7 @@ import { environment } from '../../../../../../environments/environment';
   selector: 'edit-articles',
   templateUrl: './edit-articles.component.html',
   styleUrls: ['./edit-articles.component.less'],
+  // encapsulation:ViewEncapsulation.None
 })
 export class EditArticlesComponent implements OnInit {
   listOfPosition: NzPlacementType[] = ['bottomLeft'];
@@ -16,10 +17,16 @@ export class EditArticlesComponent implements OnInit {
   isVisible = false;
   mainMenuList = [];
   secondaryMenu = [];
+  articlesType = [
+    { value: 'articles', label: '文章' },
+    { value: 'about', label: '关于' },
+  ];
   selectMainMenu = null;
   selectSecondaryMenu = null;
+  selectArticlesType = null;
   articleId: any;
-  briefContent: string;
+  briefContent = '';
+  isCanClear: boolean;
   constructor(
     private http: HttpClient,
     private message: NzMessageService,
@@ -33,10 +40,10 @@ export class EditArticlesComponent implements OnInit {
     menubar: false,
     plugins: ['emoticons image media code link codesample'],
     toolbar:
-      'undo redo | formatselect | bold italic backcolor | \
+      'undo redo | formatselect | bold italic forecolor backcolor | \
         alignleft aligncenter alignright alignjustify | \
-        bullist numlist outdent indent | removeformat |\
-        emoticons |image| media| link|code|codesample',
+        bullist numlist outdent indent|\
+        emoticons image media link|code|codesample| removeformat',
     language: 'zh_CN',
     language_url: '/assets/tinymce/lang/zh_CN.js',
     //relative_urls: true,
@@ -96,13 +103,17 @@ export class EditArticlesComponent implements OnInit {
       _id: this.articleId || null,
       mainMenuId: this.selectMainMenu,
       secondaryMenuId: this.selectSecondaryMenu,
+      articlesType: this.selectArticlesType,
       content: this.content,
       briefContent: this.briefContent,
     };
     const result = await this.http
       .post<ApiResult>('/api/v1/admin/articles', postData)
       .toPromise();
+      console.log(result);
+      
     if (result.code === 200) {
+      this.articleId = result.data._id;
       this.message.create('success', '提交成功');
     } else {
       this.message.create('error', '创建失败');
@@ -118,9 +129,14 @@ export class EditArticlesComponent implements OnInit {
     const article = re.data[0];
     this.articleId = article._id;
     this.content = article.content;
-    this.selectMainMenu = article.mainMenu[0]._id;
-    this.selectSecondaryMenu = article.secondaryMenu[0]._id;
-    this.briefContent = article.briefContent;
+    if (article.mainMenu[0] && article.secondaryMenu[0]) {
+      this.selectMainMenu = article.mainMenu[0]._id;
+      this.selectSecondaryMenu = article.secondaryMenu[0]._id;
+      this.briefContent = article.briefContent;
+    } else {
+      this.selectArticlesType = 'about';
+      this.isCanClear = false;
+    }
   }
   handleOk() {
     this.isVisible = false;

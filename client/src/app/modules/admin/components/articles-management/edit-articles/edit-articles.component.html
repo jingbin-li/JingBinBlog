@@ -1,15 +1,21 @@
 <h3>编辑文章</h3>
 <div class="editContentTop">
-  <span>文章类别：</span>
-  <nz-select [(ngModel)]="selectMainMenu">
+  <span>主菜单：</span>
+  <nz-select [(ngModel)]="selectMainMenu" [nzAllowClear]='true'>
     <ng-container *ngFor="let item of mainMenuList">
       <nz-option [nzValue]="item._id" [nzLabel]="item.articleType"></nz-option>
     </ng-container>
   </nz-select>
   <span>文章名称：</span>
-  <nz-select [(ngModel)]="selectSecondaryMenu">
+  <nz-select [(ngModel)]="selectSecondaryMenu" [nzAllowClear]='true'>
     <ng-container *ngFor="let item of secondaryMenu">
       <nz-option [nzValue]="item._id" [nzLabel]="item.articleType"></nz-option>
+    </ng-container>
+  </nz-select>
+  <span>文章类型: </span>
+  <nz-select [(ngModel)]="selectArticlesType" [nzAllowClear]='true'>
+    <ng-container *ngFor="let item of articlesType">
+      <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
     </ng-container>
   </nz-select>
   <span>简介：</span>
@@ -17,13 +23,13 @@
     <span>添加简介</span>
   </button>
   <button nz-button [nzType]="'primary'" (click)=" submitArticle()"
-    [disabled]="!(selectMainMenu && selectSecondaryMenu)">
+    [disabled]="!(selectMainMenu && selectSecondaryMenu&&selectArticlesType)">
     <span>提交</span>
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="文章简介" [nzWidth]="1000px" (nzOnCancel)="handleCancel()"
-  [nzCancelText]='null' (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="文章简介" (nzOnCancel)="handleCancel()" [nzCancelText]='null'
+  (nzOnOk)="handleOk()">
   <textarea name="" id="" cols="30" rows="10" [(ngModel)]="briefContent"></textarea>
 </nz-modal>
 <editor [init]="editorConfig" [(ngModel)]="content"></editor>
