@@ -42,7 +42,22 @@ export default {
           this.aboutData = data;
           const articleId = data._id;
           this.$store.commit("setCurrentArticleId", articleId);
+          this.getComments(articleId);
           this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getComments(articleId) {
+      axios
+        .get("/api/v1/comments/commentsList", {
+          params: {
+            articleId,
+          },
+        })
+        .then((x) => {
+          console.log(x);
         })
         .catch((error) => {
           console.log(error);

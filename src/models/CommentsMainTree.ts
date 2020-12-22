@@ -4,7 +4,7 @@ import { ICommentsMainTree } from "../interface";
 const CommentsMainTree: Schema<ICommentsMainTree> = new Schema(
   {
     tree: {
-      type: String,
+      type: Array,
     },
     articleId: {
       type:  mongoose.Schema.Types.ObjectId,
