@@ -9,7 +9,11 @@
       <h2>个人简介 | Resume</h2>
       <p v-html="aboutData.content"></p>
     </div>
-    <Comments :type="type"></Comments>
+    <Comments
+      :type="type"
+      :commentsList="commentsList"
+      :total="total"
+    ></Comments>
   </div>
 </template>
 
@@ -30,7 +34,8 @@ export default {
       loading: true,
       type: "comment",
       aboutData: "",
-      articleId: "",
+      commentsList: [],
+      total: 0,
     };
   },
   methods: {
@@ -58,16 +63,18 @@ export default {
         })
         .then((x) => {
           console.log(x);
+          this.commentsList = x.data.tree;
+          this.total = x.data.total;
         })
         .catch((error) => {
           console.log(error);
         });
     },
   },
-  created() {
+  created() {},
+  mounted() {
     this.getAbout();
   },
-  mounted() {},
 };
 </script>
 

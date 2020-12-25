@@ -5,14 +5,13 @@
         <i class="iconfont">&#xe603;</i>
         <span>查看{{ commentsType[type] }}</span>
       </div>
-      <div class="comments-box transition_dom" ref="box">
+      <div class="comments-box" :class="{ transition_dom: isexpend }">
         <div class="comments-total">
-          Comments | {{ commentsTotal }}条{{ commentsType[type] }}
+          Comments | {{ total ? total : 0 }}条{{ commentsType[type] }}
         </div>
-        <CommentsContent
-          :commentsList="commentsList"
-          @resetheight="resetBoxHeight"
-        ></CommentsContent>
+        <div v-if="commentsList">
+          <CommentsContent :commentsList="commentsList"></CommentsContent>
+        </div>
         <CommentsInput :dataId="-1"> </CommentsInput>
       </div>
     </div>
@@ -23,9 +22,20 @@
 import CommentsContent from "./CommentsContent";
 // import eventBus from "../../js/eventBus.js";
 import CommentsInput from "./CommentsInput";
+// import axios from "axios";
 export default {
   name: "Comments",
-  props: ["type", "articleId"],
+  props: {
+    type: {
+      type: String,
+    },
+    commentsList: {
+      type: Array,
+    },
+    total: {
+      type: Number,
+    },
+  },
   components: {
     CommentsContent,
     CommentsInput,
@@ -40,92 +50,15 @@ export default {
         message: "留言",
         comment: "评论",
       },
-      commentsList: [
-        {
-          id: 1,
-          avatar: "",
-          name: "大鹏",
-          content:
-            "这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧",
-          createTime: "2020-11-30",
-          reply: [
-            {
-              id: 2,
-              avatar: "",
-              name: "小胡",
-              content: "大鹏你说的对",
-              createTime: "2020-11-30",
-              reply: [],
-            },
-            {
-              id: 3,
-              avatar: "",
-              name: "小潘",
-              content: "小胡你说的也对",
-              createTime: "2020-11-30",
-              reply: [],
-            },
-          ],
-        },
-        {
-          id: 4,
-          avatar: "",
-          name: "大鹏",
-          content:
-            "这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧这个博客太好看了吧",
-          createTime: "2020-11-30",
-          reply: [
-            {
-              id: 5,
-              avatar: "",
-              name: "小胡",
-              content: "大鹏你说的对",
-              createTime: "2020-11-30",
-              reply: [],
-            },
-            {
-              id: 6,
-              avatar: "",
-              name: "小潘",
-              content: "小胡你说的也对",
-              createTime: "2020-11-30",
-              reply: [],
-            },
-          ],
-        },
-      ],
+      isexpend: false,
     };
   },
   methods: {
     showCommentsFun() {
       this.$nextTick(() => {
         this.isShowComments = !this.isShowComments;
-        if (!this.isShowComments) {
-          this.$refs.box.style.height = 0 + "px";
-        } else {
-          this.$refs.box.style.height = this.height;
-        }
+        this.isexpend = true;
       });
-    },
-    setCommentsBoxHeight() {
-      const height = this.$refs.box.offsetHeight + "px";
-      this.$refs.box.style.height = 0 + "px";
-      this.height = height;
-    },
-    resetBoxHeight(reHegith) {
-      if (reHegith) {
-        this.$refs.box.style.height = reHegith;
-      } else {
-        this.$refs.box.style.height = this.height;
-      }
-    },
-    getCommentsToal(commentsList) {
-      if (commentsList.length !== 0) {
-        this.commentsTotal += commentsList.length;
-        for (const item of commentsList) {
-          this.getCommentsToal(item.reply);
-        }
-      }
     },
     getTyeOfComments(type) {
       switch (type) {
@@ -138,12 +71,7 @@ export default {
       }
     },
   },
-  mounted() {
-    console.log("=====>", this.articleId);
-    this.getCommentsToal(this.commentsList);
-    this.setCommentsBoxHeight();
-    this.$store.commit("setResetMethod", this.resetBoxHeight);
-  },
+  mounted() {},
 };
 </script>
 
@@ -170,9 +98,12 @@ export default {
   }
   .comments-box {
     overflow: hidden;
+    max-height: 0;
+    transition: max-height 5s ease;
   }
   .transition_dom {
-    transition: all 0.6s ease;
+    transition: max-height 5s ease;
+    max-height: 15000px;
   }
   .comments-total {
     padding: 0px 10px;

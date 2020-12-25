@@ -1,12 +1,12 @@
 <template>
   <div class="comments-contents" ref="box">
-    <div class="comments-items" v-for="item in commentsList" :key="item.id">
+    <div class="comments-items" v-for="item in commentsList" :key="item._id">
       <div class="comments-top">
         <!-- <div class="avatar">{{ item.avatar }}</div> -->
         <div class="comments-name">{{ item.name }}</div>
         <div class="comments-top-right">
           <div class="create-time">{{ item.createTime }}</div>
-          <div class="reply" @click="clickReply(item.id)">回复</div>
+          <div class="reply" @click="clickReply(item._id)">回复</div>
         </div>
       </div>
       <div class="comments-content">
@@ -18,9 +18,9 @@
         </p>
       </div>
       <div>
-        <CommentsInput :dataId="item.id"> </CommentsInput>
+        <CommentsInput :dataId="item._id"> </CommentsInput>
       </div>
-      <template v-if="item.reply.length !== 0">
+      <template v-if="item.reply && item.reply.length !== 0">
         <CommentsContent :commentsList="item.reply" :answeredPeople="item.name">
         </CommentsContent>
       </template>
@@ -43,6 +43,7 @@ export default {
       currentId: -1,
       height: "",
       resetMethod: "",
+      parentId: "",
     };
   },
   methods: {
@@ -50,14 +51,9 @@ export default {
       this.$store.commit("chanageCurrentId", id);
       this.currentId = this.$store.state.currentId;
       this.isShowDetail = !this.isShowDetail;
-      this.$nextTick(() => {
-        const height = "100%";
-        this.$store.state.resetMethod(height);
-      });
     },
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 

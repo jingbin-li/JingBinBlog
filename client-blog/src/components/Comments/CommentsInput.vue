@@ -74,7 +74,6 @@ export default {
     // },
     cancleReply() {
       this.$store.commit("chanageCurrentId", -1);
-      this.$store.state.resetMethod();
     },
     submit() {
       const articleId = this.$store.state.currentArticleId;
@@ -83,14 +82,17 @@ export default {
           ? "fatherComment"
           : "childrenComment";
       console.log("submit", articleId);
-      axios.post("/api/v1/comments/saveComments", {
+      const data = {
         name: this.name,
         email: this.email,
         http: this.http,
         articleId,
         commentType,
         content: this.content,
-      });
+        parentId: this.dataId === -1 ? null : this.dataId,
+      };
+      console.log(data);
+      axios.post("/api/v1/comments/saveComments", data);
     },
   },
   mounted() {

@@ -12,6 +12,9 @@ const CommentsNodeInfo: Schema<ICommentsNodeInfo> = new Schema(
     articles_id: {
       type: mongoose.Schema.Types.ObjectId,
     },
+    parent_id: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   { timestamps: { createdAt: "createTime", updatedAt: "updateTime" } }
 );

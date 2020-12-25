@@ -3,6 +3,9 @@ import { ApiResult, IController } from "../../interface";
 import { Router, Request, Response, NextFunction as NF } from "express";
 import getArticlesList from "../../common/common.service";
 import { CommentsUser, NodeInfo, MainTree } from "../../models";
+import * as mongoose from "mongoose";
+import _ from "lodash";
+import * as moment from "moment";
 export class CommentsController extends AController implements IController {
   protected basePath: string;
   public router: Router;
@@ -25,68 +28,89 @@ export class CommentsController extends AController implements IController {
   private async getCommentsList(req: Request, res: Response, next: NF) {
     try {
       const { articleId } = req.query;
-      const mainTree = await MainTree.findOne({ articleId });
-      console.log("mainTree", mainTree.tree);
-      const x = await this.recursion(mainTree.tree);
-      const result: ApiResult = { data: mainTree, code: 200 };
-      res.json("");
+      const nodeInfo = await NodeInfo.aggregate([
+        {
+          $match: {
+            articles_id: mongoose.Types.ObjectId(<string>articleId),
+          },
+        },
+        {
+          $lookup: {
+            from: "commentsuserinfos",
+            localField: "comments_user_id",
+            foreignField: "_id",
+            as: "userInfo",
+          },
+        },
+      ]);
+      console.log(nodeInfo);
+
+      const total = nodeInfo.length;
+      const tree = this.treeBuild(nodeInfo);
+      res.json({ tree, total });
     } catch (error) {
       const result: ApiResult = { data: error, code: 500 };
       next(result);
     }
   }
-  private async recursion(nodeinfo) {
-    let x;
-    const commentsTree = new CommentsTree();
-    let info;
-    for (const iterator of nodeinfo) {
-      info = await NodeInfo.findOne({ _id: iterator.id });
-      console.log("-------------------commentsTree----------");
-      commentsTree.content = info.content;
-      console.log(commentsTree);
-      if (iterator.reply.length !== 0) {
-        x = await this.recursion(iterator.reply);
-        commentsTree.reply.push(x);
-        console.log("----------x----------",commentsTree);
+  private treeBuild(data) {
+    const idList = {};
+    const result = [];
+    for (const item of data) {
+      const userInfo = item.userInfo[0];
+      item.userId = userInfo._id;
+      item.name = userInfo.name;
+      item.email = userInfo.email;
+      item.http = userInfo.http;
+      item.createTime = moment(item.createTime).format("YYYY-MM-DD HH:mm:ss");
+      if (!item.parent_id) {
+        result.push(item);
+      }
+      idList[item._id] = item;
+    }
+    for (const item of data) {
+      const parentId = item.parent_id;
+      if (!parentId) {
+        continue;
+      }
+      if (idList[parentId].reply) {
+        idList[parentId].reply.push(item);
+      } else {
+        idList[parentId].reply = [item];
       }
     }
-    return commentsTree;
+    return result;
   }
   private async saveComments(req: Request, res: Response, next: NF) {
     try {
-      const { name, email, http, articleId, commentType, content } = req.body;
-      const user = await new CommentsUser({
+      const {
+        name,
+        email,
+        http,
+        articleId,
+        commentType,
+        content,
+        parentId,
+      } = req.body;
+      console.log("body", req.body);
+      const userInfo = await new CommentsUser({
         name,
         email,
         http,
       }).save();
-      const nodeInfo = await new NodeInfo({
+      const x = await new NodeInfo({
         content,
         articles_id: articleId,
-        comments_user_id: user._id,
+        parent_id: parentId,
+        comments_user_id: userInfo._id,
       }).save();
-      if (commentType === "fatherComment") {
-        const faId = nodeInfo._id;
-        const tree = this.getTree(faId);
-        console.log("===>", tree);
-        const treeRes = await new MainTree({
-          articleId,
-          mainCommentId: faId,
-          tree,
-        }).save();
-        console.log(treeRes);
-      }
+      console.log("xxxxxxxxx", x);
+
       res.json("");
     } catch (error) {
       const result: ApiResult = { data: error, code: 500 };
       next(result);
     }
-  }
-  public getTree(id) {
-    return {
-      id,
-      reply: [],
-    };
   }
 }
 

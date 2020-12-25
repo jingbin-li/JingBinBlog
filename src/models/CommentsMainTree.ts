@@ -6,10 +6,13 @@ const CommentsMainTree: Schema<ICommentsMainTree> = new Schema(
     tree: {
       type: Array,
     },
+    content:{
+      type:String
+    },
     articleId: {
       type:  mongoose.Schema.Types.ObjectId,
     },
-    mainCommentId: {
+    from_uid: {
       type: mongoose.Schema.Types.ObjectId,
     },
   },
