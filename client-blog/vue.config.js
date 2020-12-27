@@ -17,13 +17,7 @@ module.exports = {
           "^/api": "/api",
         },
       },
-      "/images": {
-        target: "http://localhost:5000/",
-        changeOrigin: true,
-        pathRewrite:{
-          "^/images": "/image",
-        }
-      },
     },
   },
+  publicPath: "/",
 };

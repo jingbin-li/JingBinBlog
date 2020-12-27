@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@types/node": "^14.11.2",
+    "connect-history-api-fallback": "^1.6.0",
     "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",

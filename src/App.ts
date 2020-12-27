@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Application, NextFunction as NF } from "express";
+import { Application, NextFunction as NF, Request } from "express";
 import { IController } from "./interface";
 import * as logger from "morgan";
 import errorMiddleware from "./middleware/errorMiddleware.middleware";
@@ -8,7 +8,9 @@ import * as mongoose from "mongoose";
 import * as log4js from "log4js";
 import VerificationJwt from "./tools/verification-jwt";
 import * as httpContext from "express-http-context";
-
+import * as path from "path";
+import * as fs from "fs";
+import * as history from "connect-history-api-fallback";
 export class App {
   //端口 + web服务器实例
   private app: Application;
@@ -34,6 +36,38 @@ export class App {
     //   next();
     // });
     //可以用json处理post请求体
+    // 访问静态资源
+    this.app.use(
+      history({ exclusions: ["/api/v1/*"] }),
+      (req, res, next: NF) => {
+        next();
+      }
+    );
+    this.app.use(
+      express.static(path.resolve(__dirname, "../adminBlog/dist/client")),
+      (req, res, next: NF) => {
+        next();
+      }
+    );
+    this.app.get("/admin/login", (req, res, next: NF) => {
+      console.log(req);
+      const html = fs.readFileSync(
+        path.resolve(__dirname, "../adminBlog/dist/client/index.html"),
+        "utf-8"
+      );
+      res.send(html);
+      next();
+    });
+    this.app.use(express.static(path.resolve(__dirname, "../blog/dist")));
+    //访问单页
+    this.app.get("/", (req, res, next: NF) => {
+      const html = fs.readFileSync(
+        path.resolve(__dirname, "../blog/dist/index.html"),
+        "utf-8"
+      );
+      res.send(html);
+      next();
+    });
     this.app.use(express.json());
     this.app.use(logger("dev"));
     this.app.use(express.static("public"));
