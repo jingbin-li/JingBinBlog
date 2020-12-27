@@ -21,6 +21,9 @@ export default {
   props: {
     isShowLoading: Boolean,
   },
+  mounted() {
+    this.$store.state.currentId = -1;
+  },
 };
 </script>
 <style lang="less" scoped>

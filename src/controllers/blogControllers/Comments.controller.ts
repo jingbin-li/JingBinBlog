@@ -4,7 +4,6 @@ import { Router, Request, Response, NextFunction as NF } from "express";
 import getArticlesList from "../../common/common.service";
 import { CommentsUser, NodeInfo, MainTree } from "../../models";
 import * as mongoose from "mongoose";
-import _ from "lodash";
 import * as moment from "moment";
 export class CommentsController extends AController implements IController {
   protected basePath: string;
@@ -27,13 +26,10 @@ export class CommentsController extends AController implements IController {
   }
   private async getCommentsList(req: Request, res: Response, next: NF) {
     try {
-      const { articleId } = req.query;
-      const nodeInfo = await NodeInfo.aggregate([
-        {
-          $match: {
-            articles_id: mongoose.Types.ObjectId(<string>articleId),
-          },
-        },
+      const { articleId, commentType } = req.query;
+      console.log("========>", req.query);
+      const paramsList = [];
+      paramsList.push(
         {
           $lookup: {
             from: "commentsuserinfos",
@@ -42,9 +38,20 @@ export class CommentsController extends AController implements IController {
             as: "userInfo",
           },
         },
-      ]);
-      console.log(nodeInfo);
-
+        {
+          $match: {
+            commentType,
+          },
+        }
+      );
+      if (articleId) {
+        paramsList.push({
+          $match: {
+            articles_id: mongoose.Types.ObjectId(<string>articleId),
+          },
+        });
+      }
+      const nodeInfo = await NodeInfo.aggregate(paramsList);
       const total = nodeInfo.length;
       const tree = this.treeBuild(nodeInfo);
       res.json({ tree, total });
@@ -92,7 +99,6 @@ export class CommentsController extends AController implements IController {
         content,
         parentId,
       } = req.body;
-      console.log("body", req.body);
       const userInfo = await new CommentsUser({
         name,
         email,
@@ -103,10 +109,10 @@ export class CommentsController extends AController implements IController {
         articles_id: articleId,
         parent_id: parentId,
         comments_user_id: userInfo._id,
+        commentType,
       }).save();
-      console.log("xxxxxxxxx", x);
-
-      res.json("");
+      const result: ApiResult = { data: "success", code: 200 };
+      res.json(result);
     } catch (error) {
       const result: ApiResult = { data: error, code: 500 };
       next(result);

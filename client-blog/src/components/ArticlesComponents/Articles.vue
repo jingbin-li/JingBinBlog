@@ -8,21 +8,19 @@
     <div class="content">
       <router-view></router-view>
     </div>
-    <Comments :type="type"></Comments>
   </div>
 </template>
 
 <script>
 import NavBar from "../NavBar";
 import Loading from "../Loading";
-import Comments from "../Comments/Comments";
+// import getComments from "../../tool/commonTool";
 import Top from "../Top";
 export default {
   name: "Articles",
   components: {
     NavBar,
     Loading,
-    Comments,
     Top,
   },
   data() {
@@ -31,11 +29,12 @@ export default {
       isNowRead: false,
       title: "文章",
       imageSrc: "../assets/1.jpg",
-      type: "comment",
     };
   },
   methods: {},
-  mounted() {},
+  mounted() {
+    this.$store.commit("setCommentType", "articles");
+  },
 };
 </script>
 
@@ -46,7 +45,7 @@ export default {
 .content {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0px 10px;
+  padding: 20px 10px;
   h1 {
     margin: 16px 0;
     font-size: 23px;

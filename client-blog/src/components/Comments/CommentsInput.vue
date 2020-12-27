@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loading :isShowLoading="loading"></Loading>
     <div class="comment-input" v-show="this.$store.state.currentId === dataId">
       <div class="author">
         <div class="author-updown">
@@ -39,6 +40,8 @@
 <script>
 // import emoji from "../../emoji/emoji.json";
 import axios from "axios";
+import Loading from "../Loading";
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -49,8 +52,10 @@ export default {
       email: "",
       http: "",
       content: "",
+      loading: false,
     };
   },
+  components: { Loading },
   props: ["currentId", "dataId"],
   methods: {
     showInfo() {
@@ -77,10 +82,7 @@ export default {
     },
     submit() {
       const articleId = this.$store.state.currentArticleId;
-      const commentType =
-        this.$store.state.currentId === -1
-          ? "fatherComment"
-          : "childrenComment";
+      const commentType = this.$store.state.commentType;
       console.log("submit", articleId);
       const data = {
         name: this.name,
@@ -92,7 +94,20 @@ export default {
         parentId: this.dataId === -1 ? null : this.dataId,
       };
       console.log(data);
-      axios.post("/api/v1/comments/saveComments", data);
+      if (data.name) {
+        axios.post("/api/v1/comments/saveComments", data).then((x) => {
+          if (x.data.code === 200) {
+            this.$store.state.getCommentsMothod();
+            this.$store.state.currentId = -1;
+          }
+        });
+      } else {
+        Message({
+          showClose: true,
+          message: "请在修改中填写姓名信息！",
+          type: "warning",
+        });
+      }
     },
   },
   mounted() {

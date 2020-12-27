@@ -14,6 +14,12 @@
         </div>
       </div>
       <hr />
+      <Comments
+        :type="type"
+        :commentsList="commentsList"
+        :total="total"
+        :articlesId="articlesId"
+      ></Comments>
     </div>
   </div>
 </template>
@@ -22,18 +28,24 @@
 import axios from "axios";
 import moment from "moment";
 import Loading from "../Loading";
+import Comments from "../Comments/Comments";
+import getComments from "../../tool/commonTool.js";
 export default {
-  components: { Loading },
+  components: { Loading, Comments },
   data() {
     return {
       article: {},
       loading: true,
+      type: "articles",
+      commentsList: [],
+      total: 0,
+      articlesId: "",
     };
   },
   methods: {
     getArticles() {
       const id = this.$route.query.id;
-      console.log(id);
+      this.articlesId = id;
       axios
         .get("/api/v1/articles/articlesDetial", {
           params: {
@@ -52,6 +64,10 @@ export default {
           this.$store.commit("setCurrentArticleId", data._id);
           this.loading = false;
           console.log(this.article);
+          getComments(id).then((x) => {
+            this.commentsList = x.data.tree;
+            this.total = x.data.total;
+          });
         });
     },
   },

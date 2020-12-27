@@ -9,6 +9,8 @@ export default new Vuex.Store({
     closeAreMethod: "",
     resetMethod: "",
     currentArticleId: "",
+    getCommentsMothod: "",
+    commentType: "",
   },
   mutations: {
     chanageCurrentId(state, id) {
@@ -22,6 +24,12 @@ export default new Vuex.Store({
     },
     setCurrentArticleId(state, id) {
       state.currentArticleId = id;
+    },
+    setCommentsListMonthd(state, method) {
+      state.getCommentsMothod = method;
+    },
+    setCommentType(state, type) {
+      state.commentType = type;
     },
   },
   actions: {},

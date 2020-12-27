@@ -7,9 +7,13 @@
       </div>
       <div class="comments-box" :class="{ transition_dom: isexpend }">
         <div class="comments-total">
-          Comments | {{ total ? total : 0 }}条{{ commentsType[type] }}
+          Comments | {{ total }}条{{ commentsType[type] }}
         </div>
-        <div v-if="commentsList">
+        <div
+          v-if="commentsList"
+          class="loadFade"
+          :class="{ 'loadFade-hover': isShow }"
+        >
           <CommentsContent :commentsList="commentsList"></CommentsContent>
         </div>
         <CommentsInput :dataId="-1"> </CommentsInput>
@@ -23,17 +27,15 @@ import CommentsContent from "./CommentsContent";
 // import eventBus from "../../js/eventBus.js";
 import CommentsInput from "./CommentsInput";
 // import axios from "axios";
+import getComments from "../../tool/commonTool";
 export default {
   name: "Comments",
   props: {
     type: {
       type: String,
     },
-    commentsList: {
-      type: Array,
-    },
-    total: {
-      type: Number,
+    articlesId: {
+      type: String,
     },
   },
   components: {
@@ -47,10 +49,13 @@ export default {
       height: "",
       typeTitle: "",
       commentsType: {
-        message: "留言",
-        comment: "评论",
+        messageboard: "留言",
+        articles: "评论",
       },
       isexpend: false,
+      commentsList: [],
+      total: 0,
+      isShow: false,
     };
   },
   methods: {
@@ -65,13 +70,25 @@ export default {
         case "messageBoard":
           this.typeTitle = "留言";
           break;
-        case "comments":
+        case "articles":
           this.typeTitle = "评论";
           break;
       }
     },
+    getCommentsList() {
+      this.isShow = false;
+      getComments(this.articlesId, this.type).then((x) => {
+        this.total = x.data.total;
+        this.commentsList = x.data.tree;
+        this.isShow = true;
+      });
+    },
   },
-  mounted() {},
+  mounted() {
+    this.getCommentsList();
+    this.$store.commit("setCommentType", this.type);
+    this.$store.commit("setCommentsListMonthd", this.getCommentsList);
+  },
 };
 </script>
 
@@ -112,5 +129,13 @@ export default {
     color: #7d7d7d;
     font-weight: 400;
   }
+}
+.loadFade {
+  padding: 0 10px;
+  opacity: 0;
+  transition: all 1s;
+}
+.loadFade-hover {
+  opacity: 1;
 }
 </style>

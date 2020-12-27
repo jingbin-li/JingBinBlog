@@ -9,11 +9,9 @@
       <h2>个人简介 | Resume</h2>
       <p v-html="aboutData.content"></p>
     </div>
-    <Comments
-      :type="type"
-      :commentsList="commentsList"
-      :total="total"
-    ></Comments>
+    <div v-if="articlesId">
+      <Comments :type="type" :articlesId="articlesId"></Comments>
+    </div>
   </div>
 </template>
 
@@ -32,10 +30,11 @@ export default {
   data() {
     return {
       loading: true,
-      type: "comment",
+      type: "articles",
       aboutData: "",
       commentsList: [],
       total: 0,
+      articlesId: "",
     };
   },
   methods: {
@@ -46,25 +45,9 @@ export default {
           const data = x.data.data[0];
           this.aboutData = data;
           const articleId = data._id;
+          this.articlesId = articleId;
           this.$store.commit("setCurrentArticleId", articleId);
-          this.getComments(articleId);
           this.loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getComments(articleId) {
-      axios
-        .get("/api/v1/comments/commentsList", {
-          params: {
-            articleId,
-          },
-        })
-        .then((x) => {
-          console.log(x);
-          this.commentsList = x.data.tree;
-          this.total = x.data.total;
         })
         .catch((error) => {
           console.log(error);
@@ -74,6 +57,7 @@ export default {
   created() {},
   mounted() {
     this.getAbout();
+    this.$store.commit("setCommentType", "about");
   },
 };
 </script>

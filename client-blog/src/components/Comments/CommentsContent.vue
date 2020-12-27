@@ -61,7 +61,7 @@ export default {
 .comments-contents {
   max-width: 800px;
   margin: 0px auto;
-  padding: 0px 10px;
+  padding: 0 0 0 10px;
   .comments-items {
     // background-color: rgb(254, 67, 101);
     // overflow: hidden;

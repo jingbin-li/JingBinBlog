@@ -5,7 +5,7 @@
       <NavBar></NavBar>
     </div>
     <Top :title="title"></Top>
-    <Comments :type='type'></Comments>
+    <Comments :type="type"></Comments>
   </div>
 </template>
 
@@ -24,76 +24,15 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       title: "留言板",
       isNowRead: false,
-      type:'message',
-      articlesData: [
-        {
-          id: 1,
-          title: "大鹏真帅",
-          content:
-            "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
-          createTime: "2020-10-1",
-          updateTime: "2020-11-11",
-        },
-        {
-          id: 2,
-          title: "大鹏真帅",
-          content:
-            "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
-          createTime: "2020-10-1",
-          updateTime: "2020-11-11",
-        },
-        {
-          id: 3,
-          title: "大鹏真帅",
-          content:
-            "我是一个热爱技术的小白，一直觉得编程大牛才是世界上最叼的，好的程序员绝对是造福世界，改变世界。比尔盖茨用Windows改变了世界，扎克伯格用facebook连接了全世界，不求我的代码能改变世界，但求自己开心就好~这里特别说一下关于 “不要自称为程序员” 的说法:首先我认同这样的说法，相比而言自己真不算什么程序员，但是人总要往高处走；So你应该把自己描述成与增加收入、降低成本有关系的人，比如”xx产品的开发者”或”改进者”。有一个Google Adsense 程序员的自我介绍，是这样写的：”Google公司97%的收入，与我的代码有关。”",
-          createTime: "2020-10-1",
-          updateTime: "2020-11-11",
-        },
-      ],
+      type: "messageboard",
     };
   },
-  methods: {
-    nowRead(index) {
-      const elseIndex = this.getIsExpend(index);
-      const currentData = this.articlesData[index];
-      if (elseIndex !== -1) {
-        this.$refs.box[elseIndex].style.height = "42px";
-        this.articlesData[elseIndex].isExpend = false;
-      }
-      currentData.isExpend = !currentData.isExpend;
-      this.isNowRead = !currentData.isExpend;
-      if (currentData.isExpend) {
-        const height = this.$refs.detial_box[index].offsetHeight + "px";
-        this.$refs.box[index].style.height = height;
-        currentData.isExpend = true;
-      } else {
-        this.$refs.box[index].style.height = "42px";
-      }
-    },
-    getIsExpend(currentIndex) {
-      return this.articlesData.findIndex((x, index) => {
-        if (index === currentIndex) {
-          return false;
-        }
-        return x.isExpend;
-      });
-    },
-    initDataList() {
-      this.articlesData.map((item) => {
-        this.$set(item, 'isExpend', false)
-      });
-      console.log(this.articlesData);
-    },
-  },
+  methods: {},
   mounted() {
-    this.initDataList();
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    this.$store.commit("setCommentType", "messageboard");
   },
 };
 </script>
