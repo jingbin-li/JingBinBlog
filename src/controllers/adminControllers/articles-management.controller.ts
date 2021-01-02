@@ -52,7 +52,7 @@ export class ArticlesManagementController
           const error = new HTTPException(500, "fail", err);
           next(error);
         } else {
-          res.json({ location: `images\\${newFileName}` });
+          res.json({ location: `\\images\\${newFileName}` });
         }
       });
     } catch (error) {
@@ -150,8 +150,6 @@ export class ArticlesManagementController
         briefContent,
         articlesType,
       } = req.body;
-      console.log(articlesType);
-
       if (_id) {
         const y = await Articles.update(
           { _id },
@@ -204,7 +202,6 @@ export class ArticlesManagementController
   private async getList(req: Request, res: Response, next: NF) {
     try {
       const { _id } = req.query;
-      console.log(_id);
       const x: any = [
         {
           $lookup: {

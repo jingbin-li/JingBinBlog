@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     initDataList(data) {
-      console.log(data);
       const byMainId = _.groupBy(data, "mainMenuId");
       const dataTotal = [...Object.values(byMainId)];
       for (const iterator of dataTotal) {
@@ -52,7 +51,6 @@ export default {
           data: iterator,
         });
       }
-      console.log(this.articlesData);
     },
     getArticlesList() {
       axios

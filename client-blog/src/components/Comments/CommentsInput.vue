@@ -83,7 +83,6 @@ export default {
     submit() {
       const articleId = this.$store.state.currentArticleId;
       const commentType = this.$store.state.commentType;
-      console.log("submit", articleId);
       const data = {
         name: this.name,
         email: this.email,
@@ -93,7 +92,6 @@ export default {
         content: this.content,
         parentId: this.dataId === -1 ? null : this.dataId,
       };
-      console.log(data);
       if (data.name) {
         axios.post("/api/v1/comments/saveComments", data).then((x) => {
           if (x.data.code === 200) {
@@ -101,6 +99,7 @@ export default {
             this.$store.state.currentId = -1;
           }
         });
+        this.content='';
       } else {
         Message({
           showClose: true,

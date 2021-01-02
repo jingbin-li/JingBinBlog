@@ -39,7 +39,6 @@ export class ArticlesTypeComponent implements OnInit {
       .get<ApiResult>('/api/v1/admin/articlesTypeList')
       .toPromise();
     this.listOfData = result.data;
-    console.log(result);
   }
 
   showModal(type: string, data?: any): void {
@@ -91,7 +90,6 @@ export class ArticlesTypeComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 

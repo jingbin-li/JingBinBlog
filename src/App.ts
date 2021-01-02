@@ -37,32 +37,23 @@ export class App {
     // });
     //可以用json处理post请求体
     // 访问静态资源
-    this.app.use(
-      history({ exclusions: ["/api/v1/*"] }),
-      (req, res, next: NF) => {
-        next();
-      }
-    );
-    this.app.use(
-      express.static(path.resolve(__dirname, "../adminBlog/dist/client")),
-      (req, res, next: NF) => {
-        next();
-      }
-    );
-    this.app.get("/admin/login", (req, res, next: NF) => {
-      console.log(req);
+    //访问单页
+    this.app.use(express.static(path.resolve(__dirname, "../blog/dist")));
+    this.app.get("/", (req, res, next: NF) => {
       const html = fs.readFileSync(
-        path.resolve(__dirname, "../adminBlog/dist/client/index.html"),
+        path.resolve(__dirname, "../blog/dist/index.html"),
         "utf-8"
       );
       res.send(html);
       next();
     });
-    this.app.use(express.static(path.resolve(__dirname, "../blog/dist")));
-    //访问单页
-    this.app.get("/", (req, res, next: NF) => {
+    this.app.use(history({ exclusions: ["/api/v1/*"] }));
+    this.app.use(
+      express.static(path.resolve(__dirname, "../adminBlog/dist/client"))
+    );
+    this.app.get("/admin/login", (req, res, next: NF) => {
       const html = fs.readFileSync(
-        path.resolve(__dirname, "../blog/dist/index.html"),
+        path.resolve(__dirname, "../adminBlog/dist/client/index.html"),
         "utf-8"
       );
       res.send(html);

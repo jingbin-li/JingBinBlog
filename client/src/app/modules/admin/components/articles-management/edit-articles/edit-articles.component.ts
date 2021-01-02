@@ -38,11 +38,19 @@ export class EditArticlesComponent implements OnInit {
     // base_url: '/assets',
     height: 'calc(100vh - 395px)',
     menubar: false,
-    plugins: ['emoticons image media code link codesample'],
+    codesample_languages: [
+      { text: 'HTML/XML', value: 'markup' },
+      { text: 'JavaScript', value: 'javascript' },
+      { text: 'CSS', value: 'css' },
+    ],
+    codesample_content_css: '/assets/prism.css',
+    plugins: [
+      'emoticons image media code link codesample  lineheight',
+    ],
     toolbar:
       'undo redo | formatselect | bold italic forecolor backcolor | \
         alignleft aligncenter alignright alignjustify | \
-        bullist numlist outdent indent|\
+        bullist numlist outdent indent lineheight|\
         emoticons image media link|code|codesample| removeformat',
     language: 'zh_CN',
     language_url: '/assets/tinymce/lang/zh_CN.js',
@@ -110,8 +118,6 @@ export class EditArticlesComponent implements OnInit {
     const result = await this.http
       .post<ApiResult>('/api/v1/admin/articles', postData)
       .toPromise();
-      console.log(result);
-      
     if (result.code === 200) {
       this.articleId = result.data._id;
       this.message.create('success', '提交成功');
@@ -125,7 +131,6 @@ export class EditArticlesComponent implements OnInit {
     const re = await this.http
       .get<ApiResult>('/api/v1/admin/articlesList', { params })
       .toPromise();
-    console.log(re.data);
     const article = re.data[0];
     this.articleId = article._id;
     this.content = article.content;
@@ -140,7 +145,6 @@ export class EditArticlesComponent implements OnInit {
   }
   handleOk() {
     this.isVisible = false;
-    console.log(this.briefContent);
   }
   handleCancel() {
     this.isVisible = false;

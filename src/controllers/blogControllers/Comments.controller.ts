@@ -27,7 +27,6 @@ export class CommentsController extends AController implements IController {
   private async getCommentsList(req: Request, res: Response, next: NF) {
     try {
       const { articleId, commentType } = req.query;
-      console.log("========>", req.query);
       const paramsList = [];
       paramsList.push(
         {

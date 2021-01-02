@@ -1,13 +1,10 @@
-function test() {
-  this.a = new test1();
-
-  this.a.test2( ()=> {
-    console.log(this);
-  });
-}
-function test1() {
-  this.test2 = function (a) {
-    a();
+function A() {
+  this.test = function () {
+    console.log(this === A);
+    console.log(this); //A { test: [Function] }
+    console.log(A); // [Function: A]
   };
 }
-const x1 = new test();
+
+const a = new A();
+a.test(); //false

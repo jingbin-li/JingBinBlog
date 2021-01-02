@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  domainName:'',
+  domainName:'http://jingbin.site:8000',
   baseUrl: '/',
 };

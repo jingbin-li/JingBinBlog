@@ -85,7 +85,6 @@ export default {
         .then((res) => {
           this.dataList = res.data.data;
           this.addImgSrc(this.dataList);
-          console.log(this.dataList);
         })
         .catch((error) => {
           console.log(error);

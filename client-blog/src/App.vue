@@ -7,8 +7,7 @@
 import "../src/assets/iconfont/iconfont.css";
 export default {
   name: "app",
-  components: {
-  },
+  components: {},
 };
 </script>
 
