@@ -62,7 +62,7 @@ export default {
             updateTime: moment(data.updateTime).format("YYYY年MM月DD日 HH:mm"),
             createTime: moment(data.createTime).format("YYYY年MM月DD日 HH:mm"),
           };
-           this.$nextTick(() => {
+          this.$nextTick(() => {
             prismjs.highlightAll();
           });
           this.$store.commit("setCurrentArticleId", data._id);

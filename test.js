@@ -1,10 +1,9 @@
-function A() {
-  this.test = function () {
-    console.log(this === A);
-    console.log(this); //A { test: [Function] }
-    console.log(A); // [Function: A]
-  };
-}
+var foo = "global";
+let bar = "global";
 
-const a = new A();
-a.test(); //false
+console.log(this.foo); // global
+console.log(this.bar); // undefined
+function test() {
+  console.log(this);
+}
+test();
