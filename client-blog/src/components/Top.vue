@@ -5,7 +5,7 @@
         <img src="../assets/1.jpg" alt="图片" />
       </div>
       <div class="title">
-        <h1>{{ title }}</h1>
+        <h1>{{ title.title }}</h1>
       </div>
     </div>
   </div>
@@ -14,11 +14,26 @@
 <script>
 export default {
   name: "Top",
-  props: ["title"],
-  data(){
-    return{
-    }
-  }
+  props: {
+    title: {
+      type: Object,
+    },
+  },
+  data() {
+    return {
+      isShow: false,
+    };
+  },
+  computed: {
+    getTag() {
+      return this.$store.state.isOpenMobileMenuList;
+    },
+  },
+  watch: {
+    getTag(val) {
+      this.isShow = val;
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -52,7 +67,15 @@ img:hover {
   z-index: 1;
   color: #fff;
   background: rgba(0, 0, 0, 0.3);
+  transition: all 0.4;
+  opacity: 1;
+}
+.title-effect {
+  opacity: 0;
 }
 @media only screen and (max-width: 768px) {
+  .top-image {
+    height: 100%;
+  }
 }
 </style>

@@ -27,7 +27,10 @@ export default {
     return {
       loading: false,
       isNowRead: false,
-      title: "文章",
+       title: {
+        title: "文章",
+        isShow: false,
+      },
       imageSrc: "../assets/1.jpg",
     };
   },

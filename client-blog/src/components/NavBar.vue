@@ -67,6 +67,7 @@ export default {
     expendMenuList() {
       this.isShowMobileMenuList = !this.isShowMobileMenuList;
       this.showMobileSearch = false;
+      this.$store.commit("setIsOpenMobileMenuList", this.isShowMobileMenuList);
     },
   },
   mounted() {
@@ -230,19 +231,19 @@ export default {
   }
   .mobileMenuList-enter-active,
   .mobileMenuList-leave-active {
-    transition: all 0.4s ease;
+    transition: all 0.8s ease;
   }
   .mobileMenuList-enter {
-    height: 0px;
+    max-height: 0px;
   }
   .mobileMenuList-enter-to {
-    height: 169px;
+    max-height: 200px;
   }
   .mobileMenuList-leave {
-    height: 169px;
+    max-height: 200px;
   }
   .mobileMenuList-leave-to {
-    height: 0px;
+    max-height: 0px;
   }
 }
 </style>

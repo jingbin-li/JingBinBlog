@@ -9,11 +9,14 @@
         </div>
         <div class="cancle-btn" @click="cancleReply">取消回复</div>
       </div>
-      <div class="info transition_dom" ref="box">
-        <input type="text" placeholder="Name" v-model="name" />
-        <input type="text" placeholder="Email" v-model="email" />
-        <input type="text" placeholder="http://" v-model="http" />
-      </div>
+      <transition name="edtiInfolist">
+        <div class="info" v-show="isShow">
+          <input type="text" placeholder="Name" v-model="name" />
+          <input type="text" placeholder="Email" v-model="email" />
+          <input type="text" placeholder="http://" v-model="http" />
+        </div>
+      </transition>
+
       <div class="comment-text">
         <textarea
           name="text"
@@ -60,17 +63,17 @@ export default {
   methods: {
     showInfo() {
       this.isShow = !this.isShow;
-      if (!this.isShow) {
-        this.$refs.box.style.height = 0 + "px";
-      } else {
-        this.$refs.box.style.height = "70px";
-      }
+      // if (!this.isShow) {
+      //   this.$refs.box.style.height = 0 + "px";
+      // } else {
+      //   this.$refs.box.style.height = "70px";
+      // }
     },
-    setHeight() {
-      this.$nextTick(() => {
-        this.$refs.box.style.height = 0 + "px";
-      });
-    },
+    // setHeight() {
+    //   this.$nextTick(() => {
+    //     this.$refs.box.style.height = 0 + "px";
+    //   });
+    // },
     // spliceList(data) {
     //   for (var i = 0; i < data.length; i += 4) {
     //     this.faceList.push(data.slice(i, i + 4));
@@ -99,7 +102,7 @@ export default {
             this.$store.state.currentId = -1;
           }
         });
-        this.content='';
+        this.content = "";
       } else {
         Message({
           showClose: true,
@@ -110,7 +113,7 @@ export default {
     },
   },
   mounted() {
-    this.setHeight();
+    //this.setHeight();
     this.$store.commit("chanageCurrentHeight", this.cancleReply);
   },
 };
@@ -118,6 +121,7 @@ export default {
 
 <style lang="less" scoped>
 .comment-input {
+  padding: 0 10px;
   padding-bottom: 10px;
   margin-bottom: 30px;
   border-bottom: 1px dashed #a0dad0;
@@ -125,6 +129,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    margin-bottom: 20px;
     .author-updown {
       display: flex;
       p {
@@ -168,7 +173,6 @@ export default {
     }
   }
   .info {
-    margin-top: 20px;
     overflow: hidden;
     input {
       margin-bottom: 20px;
@@ -177,9 +181,9 @@ export default {
       padding: 16px 25px 15px;
     }
   }
-  .transition_dom {
-    transition: all 0.4s ease;
-  }
+  // .transition_dom {
+  //   transition: all 0.4s ease;
+  // }
   .comment-text {
     textarea {
       display: block;
@@ -279,6 +283,24 @@ export default {
         display: flex;
       }
     }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .edtiInfolist-enter-active,
+  .edtiInfolist-leave-active {
+    transition: all 1s ease;
+  }
+  .edtiInfolist-enter {
+    max-height: 0px;
+  }
+  .edtiInfolist-enter-to {
+    max-height: 400px;
+  }
+  .edtiInfolist-leave {
+    max-height: 400px;
+  }
+  .edtiInfolist-leave-to {
+    max-height: 0px;
   }
 }
 </style>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Parent(name) {
+            this.name = name;
+            Parent.prototype.say = function () {
+                console.log("我是", name);
+            }
+        }
+        function Parent2(name, age) {
+            console.log(name, '我的年龄是', age);
+        }
+        //1.原型链继承
+        function Children1() {
+        }
+        Children1.prototype = new Parent();
+        Children1.prototype.constructor = Children1;
+        const c1 = new Children1();
+        c1.say();
+        /*
+            优点：可以继承父类原型的中的方法。
+            缺点：1.构造函数中没有办法传递参数。
+                2.没有办法实现多继承。
+        */
+        //2.构造函数继承
+        function Children2(name, age) {
+            Parent.call(this, name)
+            Parent2.call(this, name, age)
+        }
+        const c2 = new Children2('c2', 23);
+        console.log(c2.name);
+        /*
+            优点：可以实现多继承
+            缺点：没有办法继承父类原型中的方法。
+        */
+        //3.组合继承
+        function Children3(name, age) {
+            Parent.call(this, name)
+            Parent2.call(this, name, age)
+        }
+        Children3.prototype = new Parent();
+        Children3.prototype.constructor = Children3;
+        const c3 = new Children3("c3", 23);
+        c3.say();
+        /*
+         优点：可以实现多继承，也可以继承父类原型对象中的方法。
+         缺点：继承一个父类时调用两次父类的构造函数，生成了两份实例
+         */
+        //4.寄生组合式继承
+        function Children4(name) {
+            Parent.call(this, name)
+        }
+        (function () {
+            let M = function () { };
+            M.prototype = Parent.prototype;
+            Children4.prototype = new M();
+            M.prototype.constructor = Children4;
+        })();
+        const c4 = new Children4('c4');
+        c4.say();
+        console.log(c4.name);
+        const x = Object.create(null, {})
+
+        //es6 calss
+        class Parent3 {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+        }
+        class Children5 extends Parent3 {
+            constructor(name, age) {
+                super(name, age)
+                this.hobby = '🏀';
+            }
+        }
+        const c5 = new Children5('c5', 23)
+        console.log(c5.name);
+        console.log(c5.age);
+        console.log(c5.sex);
+        console.log(c5.hobby);
+        console.log(window.history);
+    </script>
+</body>
+
+</html>

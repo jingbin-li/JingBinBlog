@@ -11,6 +11,7 @@ export default new Vuex.Store({
     currentArticleId: "",
     getCommentsMothod: "",
     commentType: "",
+    isOpenMobileMenuList: false,
   },
   mutations: {
     chanageCurrentId(state, id) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     setCommentType(state, type) {
       state.commentType = type;
+    },
+    setIsOpenMobileMenuList(state, tag) {
+      state.isOpenMobileMenuList = tag;
     },
   },
   actions: {},

@@ -25,7 +25,10 @@ export default {
   data() {
     return {
       loading: false,
-      title: "留言板",
+      title: {
+        title: "留言板",
+        isShow: false,
+      },
       isNowRead: false,
       type: "messageboard",
     };
