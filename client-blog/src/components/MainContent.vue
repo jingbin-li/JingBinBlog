@@ -94,8 +94,12 @@ export default {
     addImgSrc(data) {
       // let count = 1;
       for (const item of data) {
-         const count = Math.round(Math.random() * 10 + 1);
-        this.$set(item, "imgSrc", `http://cdn.jingbin.site/blog-large-${count}.jpg`);
+        const count = Math.round(Math.random() * 10 + 1);
+        this.$set(
+          item,
+          "imgSrc",
+          `http://cdn.jingbin.site/blog-large-${count}.jpg`
+        );
       }
     },
   },
@@ -243,6 +247,12 @@ img {
 @media only screen and (max-width: 768px) {
   .content {
     padding-top: 0px;
+  }
+  .smoothie {
+    height: 256px;
+    transition: all 0.4s ease-in-out;
+    width: 100%;
+    overflow: hidden;
   }
 }
 </style>
