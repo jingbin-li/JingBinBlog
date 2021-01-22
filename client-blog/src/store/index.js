@@ -8,7 +8,7 @@ export default new Vuex.Store({
     currentId: -1,
     closeAreMethod: "",
     resetMethod: "",
-    currentArticleId: "",
+    currentArticleId: null,
     getCommentsMothod: "",
     commentType: "",
     isOpenMobileMenuList: false,

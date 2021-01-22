@@ -35,6 +35,11 @@
         </div>
       </div>
     </div>
+    <div class="mp3">
+      <audio controls="controls">
+        <source src="../assets/audio/薛之谦 _ 郭聪明 - 耗尽.mp3" type="audio/mpeg" />
+      </audio>
+    </div>
   </div>
 </template>
 
@@ -73,7 +78,8 @@ export default {
   width: 100%;
   //background-color: #ffffff;
   height: 100vh;
-  background-image: url("../assets/headbcg.jpg");
+  background-image: url("http://cdn.jingbin.site/headbcg.jpg");
+  background-size: cover;
 }
 .header-content {
   text-align: center;
@@ -130,5 +136,10 @@ export default {
   .header-top {
     height: 100%;
   }
+}
+.mp3{
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 </style>

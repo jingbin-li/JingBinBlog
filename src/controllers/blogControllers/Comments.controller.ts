@@ -98,11 +98,14 @@ export class CommentsController extends AController implements IController {
         content,
         parentId,
       } = req.body;
+      console.log(req.body);
       const userInfo = await new CommentsUser({
         name,
         email,
         http,
       }).save();
+      console.log('userinfo=============',userInfo);
+      
       const x = await new NodeInfo({
         content,
         articles_id: articleId,
@@ -110,6 +113,7 @@ export class CommentsController extends AController implements IController {
         comments_user_id: userInfo._id,
         commentType,
       }).save();
+      console.log('=========>',x);
       const result: ApiResult = { data: "success", code: 200 };
       res.json(result);
     } catch (error) {

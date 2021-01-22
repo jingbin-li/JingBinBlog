@@ -285,22 +285,20 @@ export default {
     }
   }
 }
-@media only screen and (max-width: 768px) {
-  .edtiInfolist-enter-active,
-  .edtiInfolist-leave-active {
-    transition: all 1s ease;
-  }
-  .edtiInfolist-enter {
-    max-height: 0px;
-  }
-  .edtiInfolist-enter-to {
-    max-height: 400px;
-  }
-  .edtiInfolist-leave {
-    max-height: 400px;
-  }
-  .edtiInfolist-leave-to {
-    max-height: 0px;
-  }
+.edtiInfolist-enter-active,
+.edtiInfolist-leave-active {
+  transition: all 1s ease;
+}
+.edtiInfolist-enter {
+  max-height: 0px;
+}
+.edtiInfolist-enter-to {
+  max-height: 400px;
+}
+.edtiInfolist-leave {
+  max-height: 400px;
+}
+.edtiInfolist-leave-to {
+  max-height: 0px;
 }
 </style>

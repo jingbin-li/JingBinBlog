@@ -90,10 +90,12 @@ export default {
           console.log(error);
         });
     },
+    //require(`../assets/blog-large-${count}.jpg`
     addImgSrc(data) {
+      // let count = 1;
       for (const item of data) {
-        const count = Math.round(Math.random() * 7 + 1);
-        this.$set(item, "imgSrc", require(`../assets/blog-large-${count}.jpg`));
+         const count = Math.round(Math.random() * 10 + 1);
+        this.$set(item, "imgSrc", `http://cdn.jingbin.site/blog-large-${count}.jpg`);
       }
     },
   },
@@ -225,6 +227,7 @@ small {
   }
 }
 .smoothie {
+  height: 386px;
   transition: all 0.4s ease-in-out;
   width: 100%;
   overflow: hidden;
