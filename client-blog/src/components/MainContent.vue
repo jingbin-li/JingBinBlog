@@ -249,7 +249,7 @@ img {
     padding-top: 0px;
   }
   .smoothie {
-    height: 256px;
+    height: 100%;
     transition: all 0.4s ease-in-out;
     width: 100%;
     overflow: hidden;
