@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { ApiResult } from 'src/app/interface/ApiResult';
 
 const httpOptions = {

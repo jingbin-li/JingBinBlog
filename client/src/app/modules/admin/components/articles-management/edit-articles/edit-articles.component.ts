@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService, NzPlacementType } from 'ng-zorro-antd';
 import { ApiResult } from 'src/app/interface/ApiResult';
-import tinymce from 'tinymce';
 import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'edit-articles',
