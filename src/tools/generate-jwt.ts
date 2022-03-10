@@ -1,6 +1,5 @@
 import * as jsonwebtoken from "jsonwebtoken";
 import { Payload } from "../interface/payload.interface";
-import { Roles } from "../models/Roles.schema";
 import { Users } from "../models/Users.schema";
 const GenerateJwt = async (userName: string): Promise<string> => {
   process.on("unhandledRejection", (reason, p) => {

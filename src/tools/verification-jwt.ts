@@ -1,10 +1,7 @@
-import { IController, IVerificationJTW } from "../interface";
-import * as CryptoJS from "crypto-js";
 import * as jwt from "jsonwebtoken";
 import * as httpContext from "express-http-context";
 import { Request, Response, NextFunction as NF } from "express";
 import { IContextUser } from "../interface/IContextUser.interface";
-import { decode } from "punycode";
 import { HTTPException } from "../middleware/middlewareModel/HTTPException";
 const VerificationJwt = (req: Request, res: Response, next: NF) => {
   const token = req.headers.authorization;

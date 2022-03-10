@@ -38,10 +38,10 @@ export class App {
     //可以用json处理post请求体
     // 访问静态资源
     //访问单页
-    this.app.use(express.static(path.resolve(__dirname, "../client-blog")));
+    this.app.use(express.static(path.resolve(__dirname, "../dist/client-blog")));
     this.app.get("/", (req, res, next: NF) => {
       const html = fs.readFileSync(
-        path.resolve(__dirname, "../client-blog/index.html"),
+        path.resolve(__dirname, "../dist/client-blog/index.html"),
         "utf-8"
       );
       res.send(html);
@@ -49,11 +49,11 @@ export class App {
     });
     this.app.use(history({ exclusions: ["/api/v1/*"] }));
     this.app.use(
-      express.static(path.resolve(__dirname, "../client"))
+      express.static(path.resolve(__dirname, "../dist/client"))
     );
     this.app.get("/admin/login", (req, res, next: NF) => {
       const html = fs.readFileSync(
-        path.resolve(__dirname, "../client/index.html"),
+        path.resolve(__dirname, "../dist/client/index.html"),
         "utf-8"
       );
       res.send(html);

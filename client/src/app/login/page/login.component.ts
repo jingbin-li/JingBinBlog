@@ -8,7 +8,6 @@ import {
 import { LoginService, UserService } from '../../services/coreServices';
 import { Router } from '@angular/router';
 import { CryptPassword } from '../../services/coreServices';
-import * as CryptoJS from 'crypto-js';
 import { UserLogin } from '../../interface/UserLogin';
 @Component({
   selector: 'app-login',
