@@ -37,7 +37,7 @@
     </div>
     <div class="mp3">
       <audio controls="controls">
-        <source src="../assets/audio/薛之谦 _ 郭聪明 - 耗尽.mp3" type="audio/mpeg" />
+        <source src="../assets/audio/伏仪 - 时光采样 (钢琴版).mp3" type="audio/mpeg" />
       </audio>
     </div>
   </div>

@@ -7,9 +7,9 @@ import * as jwt from 'jsonwebtoken';
 export class CryptPassword {
   constructor() {}
 
-  public userEncryptionByMD5(formObj: any): any {
-    const result = CryptoJS.MD5(formObj.passWord).toString();
-    formObj.passWord = result;
-    return formObj;
+  public userEncryptionByMD5({userName,passWord}: any): any {
+    const result = CryptoJS.MD5(passWord).toString();
+    
+    return {userName, passWord: result};
   }
 }

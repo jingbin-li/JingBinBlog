@@ -1,5 +1,5 @@
 import * as express from "express";
-import { App } from "./APP";
+import { App } from "./App";
 import { IController } from "./interface";
 import routes from "./routes/routes";
 import * as dotenv from "dotenv";

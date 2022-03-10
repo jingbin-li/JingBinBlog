@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist"
+    },
+    "exclude": [
+        "./client",
+        "./client-blog",
+      ]
+}

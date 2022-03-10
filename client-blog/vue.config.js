@@ -29,4 +29,5 @@ module.exports = {
     },
   },
   publicPath: "/",
+  outputDir: "../dist/client-blog/"
 };

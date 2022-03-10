@@ -36,7 +36,7 @@ const VerificationJwt = (req: Request, res: Response, next: NF) => {
         next(reuslt);
       }
     }
-    //next();
+    // next();
   }
 };
 

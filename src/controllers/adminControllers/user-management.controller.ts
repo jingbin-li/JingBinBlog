@@ -29,6 +29,7 @@ export class UserManagementController
     try {
       const currentUser = httpContext.get("user").userName;
       const { role, email, userName, passWord } = req.body;
+
       const user = new Users({ email, userName, passWord });
       const userResult = await user.save();
       const erro = new HTTPException(500, "fail", "添加失败");
@@ -65,8 +66,8 @@ export class UserManagementController
         user = { userName, email };
       }
 
-      const userResult = await Users.update({ _id: user_id }, user);
-      const roleReuslt = await Roles.update({ _id: role_id }, userRole);
+      await Users.update({ _id: user_id }, user);
+      await Roles.update({ _id: role_id }, userRole);
       const result: ApiResult = { data: "success", code: 200 };
       res.json(result);
     } catch (error) {
@@ -146,8 +147,8 @@ export class UserManagementController
     let result: ApiResult;
     try {
       const { user_id, role_id } = req.query;
-      const userResult = await Users.remove({ _id: user_id });
-      const roleReuslt = await Roles.remove({ _id: role_id });
+      await Users.remove({ _id: user_id });
+      await Roles.remove({ _id: role_id });
       result = { data: "success", code: 200 };
       res.json(result);
     } catch (error) {

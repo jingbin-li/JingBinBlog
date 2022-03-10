@@ -43,9 +43,11 @@ export class UserController extends AController implements IController {
     try {
       const reuslt = await Users.findOne({ userName, passWord }, "_id");
       const role = await Roles.findOne({ userId: reuslt._id }, "role -_id");
+      
       if (reuslt) {
         const jwt = await GenerateJwt(userName);
         let result: ApiResult = { data: { jwt, role }, code: 200 };
+        
         res.json(result);
       } else {
         res.json({ data: "fail", code: 500 });
