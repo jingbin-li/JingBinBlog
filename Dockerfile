@@ -14,6 +14,8 @@ RUN npm install -g ts-node
 
 RUN cd /home/jingbinBlog/ && npm install && tsc -b
 
+RUN npm install -g @angular/cli
+
 RUN cd /home/jingbinBlog/client/ && npm install && npm run build
 
 RUN cd /home/jingbinBlog/client-blog && npm install && npm run build
