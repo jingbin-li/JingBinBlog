@@ -14,6 +14,8 @@ RUN npm install -g ts-node
 
 RUN cd /home/jingbinBlog/ && npm install && tsc -b
 
+RUN export NG_CLI_ANALYTICS=false
+
 RUN npm install -g @angular/cli@10.1.7
 
 RUN cd /home/jingbinBlog/client/ && npm install && npm run build
