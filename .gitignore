@@ -2,4 +2,3 @@ node_modules
 dist
 dist.zip
 .vscode
-package-lock.json
