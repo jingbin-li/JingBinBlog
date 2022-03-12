@@ -29,8 +29,12 @@
               "src/styles.less"
             ],
             "scripts": [
-             
-            ]
+            
+            ],
+            "allowedCommonJsDependencies": [
+              "crypto-js",
+              "@ant-design/colors"
+           ]
           },
           "configurations": {
             "production": {
