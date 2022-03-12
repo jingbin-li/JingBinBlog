@@ -8,7 +8,7 @@ COPY . /home/jingbinBlog
 
 WORKDIR /home/jingbinBlog
 
-RUN export NODE_ENV=production
+RUN export NODE_ENV="production"
 
 RUN export NG_CLI_ANALYTICS=false
 RUN npm install -g @angular/cli@10.1.7
